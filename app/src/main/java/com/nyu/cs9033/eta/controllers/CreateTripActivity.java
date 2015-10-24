@@ -34,15 +34,17 @@ public class CreateTripActivity extends Activity {
 		EditText tripNameText = ((EditText)findViewById(R.id.editText_new_trip_name));
 
 		EditText tripDateText = ((EditText)findViewById(R.id.editText_new_trip_date));
+		EditText tripTimeText = ((EditText)findViewById(R.id.editText_new_trip_time));
 		EditText tripLocationText = (EditText)findViewById(R.id.editText_new_trip_location);
 		EditText tripFriendNameText = ((EditText)findViewById(R.id.editText_new_trip_friend_name));
-		EditText tripFriendLocationText = ((EditText)findViewById(R.id.editText_new_trip_friend_location));
+//		EditText tripFriendLocationText = ((EditText)findViewById(R.id.editText_new_trip_friend_location));
 
 		String tripName = tripNameText.getText().toString().trim();
 		String tripDate = tripDateText.getText().toString().trim();
+		String tripTime = tripTimeText.getText().toString().trim();
 		String tripLocation = tripLocationText.getText().toString().trim();
 		String tripFriendName = tripFriendNameText.getText().toString().trim();
-		String tripFriendLocation = tripFriendLocationText.getText().toString().trim();
+//		String tripFriendLocation = tripFriendLocationText.getText().toString().trim();
 
 		if(tripName == null || tripName.trim().length() == 0){
 			tripNameText.setError("Trip name can not be empty");
@@ -51,6 +53,11 @@ public class CreateTripActivity extends Activity {
 
 		if(tripDate == null || tripDate.trim().length() == 0){
 			tripDateText.setError("Trip date can not be empty");
+			return null;
+		}
+
+		if(tripTime == null || tripTime.trim().length() == 0){
+			tripTimeText.setError("Trip time can not be empty");
 			return null;
 		}
 
@@ -64,13 +71,15 @@ public class CreateTripActivity extends Activity {
 			return null;
 		}
 
+		/*
 		if(tripFriendLocation == null || tripFriendLocation.trim().length() == 0){
 			tripFriendLocationText.setError("Trip friend location can not be empty");
 			return null;
 		}
-		Person friend = new Person(tripFriendName, tripFriendLocation);
+		*/
+		Person friend = new Person(tripFriendName);
 
-		Trip newTrip = new Trip(tripName, tripDate, tripLocation, friend);
+		Trip newTrip = new Trip(tripName, tripDate, tripTime, tripLocation, friend);
 		return newTrip;
 	}
 
