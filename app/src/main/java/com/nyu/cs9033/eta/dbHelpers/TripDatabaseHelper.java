@@ -1,4 +1,5 @@
 package com.nyu.cs9033.eta.dbHelpers;
+import com.nyu.cs9033.eta.models.Trip;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -7,7 +8,8 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.location.Location;
 
-import com.nyu.cs9033.eta.models.Trip;
+import java.util.*;
+
 
 /**
  * Created by kangkang on 10/22/15.
@@ -76,7 +78,7 @@ public class TripDatabaseHelper extends SQLiteOpenHelper {
         // Needs to get trip time information
         cv.put(COLUMN_TRIP_TIME, trip.getTime());
         // Needs to get trip destination
-        cv.put(COLUMN_TRIP_DESTINATION, trip.getLocation());
+        cv.put(COLUMN_TRIP_DESTINATION, trip.getDestination());
 
         // return id of new trip
         return getWritableDatabase().insert(TABLE_TRIP, null, cv);
@@ -103,7 +105,13 @@ public class TripDatabaseHelper extends SQLiteOpenHelper {
 
         for(cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext()){
             Trip trip = new Trip();
+            trip.setTime(cursor.getString(1));
+            trip.setDestination(cursor.getString(2));
+            trip.setFirends(cursor.getString(3));
+            result.add(trip);
         }
+
+        return result;
     }
 
 }
