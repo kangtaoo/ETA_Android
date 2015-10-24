@@ -8,7 +8,6 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".CreateTripActivity">
-
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -20,7 +19,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Trip name"
+        android:text="Name"
         android:id="@+id/textView_trip_name"
         android:layout_below="@+id/textView_create_trip_title"
         android:layout_toLeftOf="@+id/textView_create_trip_title"
@@ -44,23 +43,14 @@
         android:layout_toLeftOf="@+id/editText_new_trip_name"
         android:layout_toStartOf="@+id/editText_new_trip_name" />
 
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/editText_new_trip_date"
-        android:layout_toRightOf="@+id/textView_trip_name"
-        android:layout_toEndOf="@+id/textView_trip_name"
-        android:layout_below="@+id/editText_new_trip_name" />
-
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Friend"
+        android:text="Friends"
         android:id="@+id/textView_new_trip_friend"
-        android:layout_below="@+id/editText_new_trip_date"
+        android:layout_below="@+id/editText_new_trip_location"
         android:layout_alignRight="@+id/textView_new_trip_location"
-        android:layout_alignEnd="@+id/textView_new_trip_location"
-        android:layout_marginTop="34dp" />
+        android:layout_alignEnd="@+id/textView_new_trip_location" />
 
     <Button
         android:layout_width="wrap_content"
@@ -69,8 +59,8 @@
         android:id="@+id/button_new_trip_save"
         android:onClick="onClickSaveTrip"
         android:layout_alignTop="@+id/button_new_trip_cancel"
-        android:layout_alignLeft="@+id/editText_new_trip_friend_location"
-        android:layout_alignStart="@+id/editText_new_trip_friend_location" />
+        android:layout_toRightOf="@+id/button_new_trip_cancel"
+        android:layout_toEndOf="@+id/button_new_trip_cancel" />
 
     <Button
         android:layout_width="wrap_content"
@@ -78,59 +68,64 @@
         android:text="CANCEL"
         android:id="@+id/button_new_trip_cancel"
         android:onClick="cancelTrip"
-        android:layout_below="@+id/editText_new_trip_friend_location"
-        android:layout_alignLeft="@+id/textView_new_trip_friend"
-        android:layout_alignStart="@+id/textView_new_trip_friend"
-        android:layout_marginTop="35dp" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Name"
-        android:id="@+id/textView_new_trip_friend_name"
-        android:layout_below="@+id/textView_new_trip_friend"
-        android:layout_alignLeft="@+id/editText_new_trip_date"
-        android:layout_alignStart="@+id/editText_new_trip_date" />
+        android:layout_marginTop="34dp"
+        android:layout_below="@+id/editText_new_trip_friend_name"
+        android:layout_alignLeft="@+id/textView"
+        android:layout_alignStart="@+id/textView" />
 
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/editText_new_trip_friend_name"
         android:layout_below="@+id/textView_new_trip_friend"
-        android:layout_toRightOf="@+id/textView_new_trip_friend_name" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Location"
-        android:id="@+id/textView_new_trip_friend_location"
-        android:layout_below="@+id/editText_new_trip_friend_name"
-        android:layout_alignRight="@+id/button_new_trip_cancel"
-        android:layout_alignEnd="@+id/button_new_trip_cancel" />
-
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/editText_new_trip_friend_location"
-        android:layout_alignTop="@+id/textView_new_trip_friend_location"
-        android:layout_toRightOf="@+id/textView_new_trip_friend_location"
-        android:layout_toEndOf="@+id/textView_new_trip_friend_location" />
+        android:layout_alignLeft="@+id/editText_new_trip_location"
+        android:layout_alignStart="@+id/editText_new_trip_location" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Location"
         android:id="@+id/textView_new_trip_location"
-        android:layout_below="@+id/editText_new_trip_date"
-        android:layout_toLeftOf="@+id/editText_new_trip_date"
-        android:layout_toStartOf="@+id/editText_new_trip_date" />
+        android:layout_marginTop="40dp"
+        android:layout_below="@+id/textView"
+        android:layout_alignRight="@+id/textView_new_trip_date"
+        android:layout_alignEnd="@+id/textView_new_trip_date" />
 
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/editText_new_trip_location"
+        android:layout_below="@+id/textView_new_trip_location"
+        android:layout_toRightOf="@+id/textView_new_trip_location"
+        android:layout_toEndOf="@+id/textView_new_trip_location" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Time"
+        android:id="@+id/textView"
         android:layout_below="@+id/editText_new_trip_date"
-        android:layout_toRightOf="@+id/textView_new_trip_friend"
-        android:layout_toEndOf="@+id/textView_new_trip_friend" />
+        android:layout_alignLeft="@+id/textView_new_trip_date"
+        android:layout_alignStart="@+id/textView_new_trip_date" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="date"
+        android:ems="10"
+        android:id="@+id/editText_new_trip_date"
+        android:layout_below="@+id/textView_new_trip_date"
+        android:layout_toRightOf="@+id/textView_new_trip_location"
+        android:layout_toEndOf="@+id/textView_new_trip_location" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="time"
+        android:ems="10"
+        android:id="@+id/editText_new_trip_time"
+        android:layout_below="@+id/textView"
+        android:layout_toRightOf="@+id/textView_new_trip_location"
+        android:layout_toEndOf="@+id/textView_new_trip_location" />
 
 </RelativeLayout>
