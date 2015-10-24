@@ -7,10 +7,11 @@ public class Trip implements Parcelable {
 	
 	// Member fields should exist here, what else do you need for a trip?
 	// Please add additional fields
-	private String name;
-	private String date;
-	private String location;
-	private Person friend;
+//	private String name;
+//	private String date;
+	private String time;
+	private String destination;
+	private String friends;
 	
 	/**
 	 * Parcelable creator. Do not modify this function.
@@ -35,11 +36,12 @@ public class Trip implements Parcelable {
 	public Trip(Parcel p) {
 		
 		// TODO - fill in here
-		System.out.println("==========Trip::Trip(Parcel p)==========");
-		this.name = p.readString();
-		this.date = p.readString();
-		this.location = p.readString();
-		this.friend = p.readParcelable(Person.class.getClassLoader());
+//		this.name = p.readString();
+//		this.date = p.readString();
+		this.destination = p.readString();
+		this.destination = p.readString();
+		this.friends = p.readString();
+//		this.friends = p.readParcelable(Person.class.getClassLoader());
 	}
 	
 	/**
@@ -48,13 +50,14 @@ public class Trip implements Parcelable {
 	 * @param name  Add arbitrary number of arguments to
 	 * instantiate Trip class based on member variables.
 	 */
-	public Trip(String name, String date, String location, Person friend) {
+	public Trip(String time, String destination, Person friend) {
 		
 		// TODO - fill in here, please note you must have more arguments here
-		this.name = name;
-		this.date = date;
-		this.location = location;
-		this.friend = friend;
+//		this.name = name;
+//		this.date = date;
+		this.time = time;
+		this.destination = destination;
+		this.friends = friends;
 
 	}
 
@@ -75,10 +78,12 @@ public class Trip implements Parcelable {
 	public void writeToParcel(Parcel dest, int flags) {
 		
 		// TODO - fill in here
-		dest.writeString(this.name);
-		dest.writeString(this.date);
-		dest.writeString(this.location);
-		dest.writeParcelable(this.friend, 0);
+//		dest.writeString(this.name);
+//		dest.writeString(this.date);
+		dest.writeString(this.time);
+		dest.writeString(this.destination);
+		dest.writeString(this.friends);
+//		dest.writeParcelable(this.friend, 0);
 
 	}
 	
@@ -95,23 +100,33 @@ public class Trip implements Parcelable {
 		return 0;
 	}
 
-	public String getName(){
-		return this.name;
+
+	public String getTime(){
+		return this.time;
 	}
 
-	public String getDate(){
-		return this.date;
+	public String getDestination(){
+		return this.destination;
 	}
 
-	public String getLocation(){
-		return this.location;
-	}
-
-	public Person getFriend(){
-		return this.friend;
+	public String getFriend(){
+		return this.friends;
 	}
 
 	public String toString(){
-		return this.name + " ---- " + this.date;
+		return this.destination + " ---- " + this.time;
 	}
+
+	public void setDestination(String destination){
+		this.destination = destination;
+	}
+
+	public void setTime(String time){
+		this.time = time;
+	}
+
+	public void setFirends(String friends){
+		this.friends = friends;
+	}
+
 }
