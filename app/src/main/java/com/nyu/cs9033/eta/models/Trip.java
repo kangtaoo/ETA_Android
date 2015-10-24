@@ -25,7 +25,7 @@ public class Trip implements Parcelable {
 			return new Trip[size];
 		}
 	};
-	
+
 	/**
 	 * Create a Trip model object from a Parcel. This
 	 * function is called via the Parcelable creator.
@@ -42,6 +42,17 @@ public class Trip implements Parcelable {
 		this.destination = p.readString();
 		this.friends = p.readString();
 //		this.friends = p.readParcelable(Person.class.getClassLoader());
+	}
+
+	/**
+	 * Create a empty Trip model object
+	 * This constructor will do nothing, leave all field be initial
+	 * to default initial value.
+	 * Need to call corresponding set***() function to the set value
+	 * for corresponding fields.
+	 */
+	public Trip(){
+		super();
 	}
 	
 	/**
