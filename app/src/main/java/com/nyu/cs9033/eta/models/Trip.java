@@ -58,10 +58,11 @@ public class Trip implements Parcelable {
 	/**
 	 * Create a Trip model object from arguments
 	 * 
-	 * @param name  Add arbitrary number of arguments to
+	 * @param time, destination, friends
+	 * Add arbitrary number of arguments to
 	 * instantiate Trip class based on member variables.
 	 */
-	public Trip(String time, String destination, Person friend) {
+	public Trip(String time, String destination, String friends) {
 		
 		// TODO - fill in here, please note you must have more arguments here
 //		this.name = name;
@@ -136,7 +137,7 @@ public class Trip implements Parcelable {
 		this.time = time;
 	}
 
-	public void setFirends(String friends){
+	public void setFriends(String friends){
 		this.friends = friends;
 	}
 
