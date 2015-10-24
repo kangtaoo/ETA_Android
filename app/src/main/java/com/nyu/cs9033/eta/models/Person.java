@@ -34,7 +34,7 @@ public class Person implements Parcelable {
 		
 		// TODO - fill in here
 		this.name = p.readString();
-		this.location = p.readString();
+//		this.location = p.readString();
 	}
 	
 	/**
@@ -43,11 +43,11 @@ public class Person implements Parcelable {
 	 * @param name Add arbitrary number of arguments to
 	 * instantiate Person class based on member variables.
 	 */
-	public Person(String name, String location) {
+	public Person(String name) {
 		
 		// TODO - fill in here, please note you must have more arguments here
 		this.name = name;
-		this.location = location;
+//		this.location = location;
 	}
 
 	/**
@@ -68,7 +68,7 @@ public class Person implements Parcelable {
 		
 		// TODO - fill in here
 		dest.writeString(this.name);
-		dest.writeString(this.location);
+//		dest.writeString(this.location);
 	}
 	
 	/**
