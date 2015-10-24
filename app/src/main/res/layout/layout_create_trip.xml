@@ -8,6 +8,7 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".CreateTripActivity">
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -19,29 +20,12 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Name"
-        android:id="@+id/textView_trip_name"
+        android:text="Date"
+        android:id="@+id/textView_new_trip_date"
         android:layout_below="@+id/textView_create_trip_title"
         android:layout_toLeftOf="@+id/textView_create_trip_title"
         android:layout_toStartOf="@+id/textView_create_trip_title"
-        android:layout_alignParentLeft="false" />
-
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/editText_new_trip_name"
-        android:layout_alignTop="@+id/textView_trip_name"
-        android:layout_alignLeft="@+id/textView_create_trip_title"
-        android:layout_alignStart="@+id/textView_create_trip_title" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Date"
-        android:id="@+id/textView_new_trip_date"
-        android:layout_below="@+id/editText_new_trip_name"
-        android:layout_toLeftOf="@+id/editText_new_trip_name"
-        android:layout_toStartOf="@+id/editText_new_trip_name" />
+        android:layout_marginTop="32dp" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -49,8 +33,8 @@
         android:text="Friends"
         android:id="@+id/textView_new_trip_friend"
         android:layout_below="@+id/editText_new_trip_location"
-        android:layout_alignRight="@+id/textView_new_trip_location"
-        android:layout_alignEnd="@+id/textView_new_trip_location" />
+        android:layout_alignRight="@+id/textView_new_trip_destination"
+        android:layout_alignEnd="@+id/textView_new_trip_destination" />
 
     <Button
         android:layout_width="wrap_content"
@@ -84,8 +68,8 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Location"
-        android:id="@+id/textView_new_trip_location"
+        android:text="Destination"
+        android:id="@+id/textView_new_trip_destination"
         android:layout_marginTop="40dp"
         android:layout_below="@+id/textView"
         android:layout_alignRight="@+id/textView_new_trip_date"
@@ -95,9 +79,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/editText_new_trip_location"
-        android:layout_below="@+id/textView_new_trip_location"
-        android:layout_toRightOf="@+id/textView_new_trip_location"
-        android:layout_toEndOf="@+id/textView_new_trip_location" />
+        android:layout_below="@+id/textView_new_trip_destination"
+        android:layout_toRightOf="@+id/textView_new_trip_destination"
+        android:layout_toEndOf="@+id/textView_new_trip_destination" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -115,8 +99,8 @@
         android:ems="10"
         android:id="@+id/editText_new_trip_date"
         android:layout_below="@+id/textView_new_trip_date"
-        android:layout_toRightOf="@+id/textView_new_trip_location"
-        android:layout_toEndOf="@+id/textView_new_trip_location" />
+        android:layout_toRightOf="@+id/textView_new_trip_destination"
+        android:layout_toEndOf="@+id/textView_new_trip_destination" />
 
     <EditText
         android:layout_width="wrap_content"
@@ -125,7 +109,7 @@
         android:ems="10"
         android:id="@+id/editText_new_trip_time"
         android:layout_below="@+id/textView"
-        android:layout_toRightOf="@+id/textView_new_trip_location"
-        android:layout_toEndOf="@+id/textView_new_trip_location" />
+        android:layout_toRightOf="@+id/textView_new_trip_destination"
+        android:layout_toEndOf="@+id/textView_new_trip_destination" />
 
 </RelativeLayout>
