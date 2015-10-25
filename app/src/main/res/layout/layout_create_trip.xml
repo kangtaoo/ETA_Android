@@ -47,9 +47,9 @@
         android:text="CANCEL"
         android:id="@+id/button_new_trip_cancel"
         android:onClick="cancelTrip"
-        android:layout_marginTop="32dp"
-        android:layout_below="@+id/editText_new_trip_friends"
-        android:layout_centerHorizontal="true" />
+        android:layout_alignParentBottom="true"
+        android:layout_toRightOf="@+id/textView_new_trip_destination"
+        android:layout_toEndOf="@+id/textView_new_trip_destination" />
 
     <EditText
         android:layout_width="wrap_content"
@@ -124,5 +124,16 @@
         android:layout_alignTop="@+id/textView_new_trip_friends"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true" />
+
+    <Button
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Search"
+        android:id="@+id/button_new_trip_searchLocation"
+        android:layout_alignTop="@+id/textView_new_trip_destination"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:onClick="onClickSearchLocation"/>
 
 </RelativeLayout>

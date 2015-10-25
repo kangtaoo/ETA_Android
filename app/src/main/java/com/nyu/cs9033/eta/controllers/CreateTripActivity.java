@@ -18,6 +18,7 @@ import android.widget.DatePicker;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
@@ -36,6 +37,9 @@ public class CreateTripActivity extends Activity {
 	private final Calendar calendar = Calendar.getInstance();
 
 	private final int REQUEST_CONTACT = 1; // OPT code for request contact
+	private final int SEARCH_LOC = 2; // OPT code for location search
+	// URI for using HW3API location service
+	private final Uri HW3API_LOC_URI = Uri.parse("location://com.example.nyu.hw3api");
 
 	/**
 	 * Get current date and initial both TextEdit and  DatePicker
@@ -274,14 +278,37 @@ public class CreateTripActivity extends Activity {
 
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data){
-		// return directly if error occurs when try to pick contact
-		if(resultCode != Activity.RESULT_OK) return;
+		System.out.println("=====================Enter CreateTripActivity::onActivityResult====================");
+		System.out.println("++++++request code: " + requestCode + "++++++++++++++++");
+		System.out.println("++++++result code: " + resultCode + "++++++++++++++++");
+		System.out.println("//////result OK code should be: " + Activity.RESULT_OK + "///////////");
 
+
+		// return directly if error occurs when try to pick contact
+		if(resultCode != Activity.RESULT_OK &&
+				resultCode != Activity.RESULT_FIRST_USER) return;
+
+		switch(requestCode){
+			case REQUEST_CONTACT:
+				handlePickContactResult(data);
+				break;
+			case SEARCH_LOC:
+				System.out.println("===========Will call handleSearchLocResult()=============");
+				handleSearchLocResult(data);
+				break;
+		}
+	}
+
+	/**
+	 *  Handle return data from pick contact activity
+	 *  Will be called by onActivityResult()
+	 *  */
+	private void handlePickContactResult(Intent data){
 		Uri contactUri = data.getData(); // get uri from Intent object rather than actual data
 
 		// now query the ContentProvider with the data you want
 		String[] queryFields = new String[]{
-			ContactsContract.Contacts.DISPLAY_NAME
+				ContactsContract.Contacts.DISPLAY_NAME
 		};
 
 		Cursor c = getContentResolver().query(contactUri, queryFields, null, null, null);
@@ -306,6 +333,36 @@ public class CreateTripActivity extends Activity {
 
 		tripFriendsText.setText(friends);
 		c.close();
+	}
+
+	/**
+	 * Will handle return data from HW3API
+	 * Will be called by onActivityResult()
+	 * */
+	private void handleSearchLocResult(Intent data){
+		System.out.println("=====================Enter CreateTripActivity::handleSearchLocResult====================");
+
+		ArrayList<String> result = data.getExtras().getStringArrayList("retVal");
+		StringBuilder resultStr = new StringBuilder();
+		for(String str: result){
+			resultStr.append(str);
+			resultStr.append("--");
+		}
+		tripDestinationText.setText(result.get(0));
+		System.out.println("=====================" + resultStr + "====================");
+		System.out.println("=====================Exit CreateTripActivity::handleSearchLocResult====================");
+
+	}
+
+	public void onClickSearchLocation(View view){
+		Intent searchLocationIntent = new Intent(
+				Intent.ACTION_VIEW, HW3API_LOC_URI);
+
+		String searchStr = tripDestinationText.getText().toString();
+		if(searchStr != null && searchStr.length() > 0){
+			searchLocationIntent.putExtra("searchVal", searchStr);
+			startActivityForResult(searchLocationIntent, SEARCH_LOC);
+		}
 	}
 
 }
