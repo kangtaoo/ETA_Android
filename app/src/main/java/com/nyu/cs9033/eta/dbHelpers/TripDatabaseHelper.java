@@ -40,7 +40,7 @@ public class TripDatabaseHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db){
         // SQL script used to create trip table
-        String createTripTable = "CREATE TABLE" + TABLE_TRIP + "("
+        String createTripTable = "CREATE TABLE " + TABLE_TRIP + " ("
                 + COLUMN_TRIP_ID + " INTEGER primary key autoincrement, "
                 + COLUMN_TRIP_TIME + " TEXT, "
                 + COLUMN_TRIP_DESTINATION + " TEXT, "
@@ -50,7 +50,7 @@ public class TripDatabaseHelper extends SQLiteOpenHelper {
         db.execSQL(createTripTable);
 
         // SQL script used to create location table
-        String createLocTable = "CREATE TABLE" + TABLE_LOCATION + "("
+        String createLocTable = "CREATE TABLE " + TABLE_LOCATION + " ("
                 + COLUMN_LOC_TRIPID + " INTEGER references trip(_id), "
                 + COLUMN_LOC_LAT + " REAL, "
                 + COLUMN_LOC_LONG + " REAL, "

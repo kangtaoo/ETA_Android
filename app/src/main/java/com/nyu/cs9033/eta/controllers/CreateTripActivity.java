@@ -1,5 +1,6 @@
 package com.nyu.cs9033.eta.controllers;
 
+import com.nyu.cs9033.eta.dbHelpers.TripDatabaseHelper;
 import com.nyu.cs9033.eta.models.Trip;
 import com.nyu.cs9033.eta.R;
 
@@ -15,6 +16,7 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 
 import java.util.Calendar;
+import java.util.List;
 
 public class CreateTripActivity extends Activity {
 	
@@ -167,14 +169,12 @@ public class CreateTripActivity extends Activity {
 			return null;
 		}
 
-
-
 		if(tripFriends == null || tripFriends.trim().length() == 0){
 			tripFriendsText.setError("Trip friend list can not be empty");
 			return null;
 		}
 
-		Trip newTrip = new Trip(tripTime, tripDestination, tripFriends);
+		Trip newTrip = new Trip(tripDate+" "+tripTime, tripDestination, tripFriends);
 		return newTrip;
 	}
 
@@ -199,16 +199,19 @@ public class CreateTripActivity extends Activity {
 		 * In current implementation it will always return true;
 		 * */
 
-		System.out.println("Trip::time: " + trip.getTime());
-		System.out.println("Trip::destination: " + trip.getDestination());
-		System.out.println("Trip::friends: " + trip.getFriend());
+		TripDatabaseHelper db = new TripDatabaseHelper(this);
+		db.insertTrip(trip);
 
+		List<Trip> result = db.getAllTrips();
+		for(Trip item: result){
+			System.out.println(item);
+		}
 		return true;
 	}
 
 	public void onClickSaveTrip(View view){
 
-		Intent intent = new Intent();
+//		Intent intent = new Intent();
 
 		Trip newTrip = createTrip();
 
@@ -218,9 +221,9 @@ public class CreateTripActivity extends Activity {
 
 			if(saveSuccess){
 
-				intent.putExtra("trip", newTrip);
+//				intent.putExtra("trip", newTrip);
 
-				setResult(RESULT_OK, intent);
+//				setResult(RESULT_OK, intent);
 				finish();
 			}
 		}
