@@ -8,7 +8,10 @@ import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.DatePicker;
@@ -31,6 +34,8 @@ public class CreateTripActivity extends Activity {
 	private EditText tripDestinationText;
 	private EditText tripFriendsText;
 	private final Calendar calendar = Calendar.getInstance();
+
+	private final int REQUEST_CONTACT = 1; // OPT code for request contact
 
 	/**
 	 * Get current date and initial both TextEdit and  DatePicker
@@ -247,4 +252,60 @@ public class CreateTripActivity extends Activity {
 		setResult(RESULT_CANCELED);
 		finish();
 	}
+
+	/**
+	 * Callback function when click add friend
+	 * */
+	public void onClickAddFriend(View view){
+		pickContact();
+	}
+
+	/**
+	 * Open pick activity of contact application and then pass
+	 * selected contact back to ETA application
+	 * */
+
+	private void pickContact(){
+		Intent pickContactIntent = new Intent(
+				Intent.ACTION_PICK,
+				ContactsContract.Contacts.CONTENT_URI);
+		startActivityForResult(pickContactIntent, REQUEST_CONTACT);
+	}
+
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data){
+		// return directly if error occurs when try to pick contact
+		if(resultCode != Activity.RESULT_OK) return;
+
+		Uri contactUri = data.getData(); // get uri from Intent object rather than actual data
+
+		// now query the ContentProvider with the data you want
+		String[] queryFields = new String[]{
+			ContactsContract.Contacts.DISPLAY_NAME
+		};
+
+		Cursor c = getContentResolver().query(contactUri, queryFields, null, null, null);
+
+		// make sure the result is not empty
+		if(c.getCount() == 0){
+			c.close();
+			return;
+		}
+
+		// Get origin test for tripFriendsText
+		String friends = tripFriendsText.getText().toString();
+
+		// Get the first row
+		c.moveToFirst();
+		String person = c.getString(0);
+
+		if(friends.length() != 0){
+			friends += ",";
+		}
+		friends += person;
+
+		tripFriendsText.setText(friends);
+		c.close();
+	}
+
 }
