@@ -107,7 +107,7 @@ public class TripDatabaseHelper extends SQLiteOpenHelper {
             Trip trip = new Trip();
             trip.setTime(cursor.getString(1));
             trip.setDestination(cursor.getString(2));
-            trip.setFirends(cursor.getString(3));
+            trip.setFriends(cursor.getString(3));
             result.add(trip);
         }
 

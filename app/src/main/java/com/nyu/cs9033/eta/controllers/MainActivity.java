@@ -58,7 +58,8 @@ public class MainActivity extends Activity {
 
 		// TODO - fill in here
 		Intent intent = new Intent(this, CreateTripActivity.class);
-		startActivityForResult(intent, CREATE_NEW_TRIP);
+		startActivity(intent);
+//		startActivityForResult(intent, CREATE_NEW_TRIP);
 	}
 	
 	/**
