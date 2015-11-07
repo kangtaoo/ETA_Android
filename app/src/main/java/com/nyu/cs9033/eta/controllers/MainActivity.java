@@ -3,9 +3,12 @@ package com.nyu.cs9033.eta.controllers;
 import com.nyu.cs9033.eta.models.Trip;
 import com.nyu.cs9033.eta.R;
 
+import android.app.TabActivity;
 import android.os.Bundle;
 import android.app.Activity;
 import android.content.Intent;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentTabHost;
 import android.view.View;
 import java.util.*;
 
@@ -13,9 +16,10 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+//import android.widget.TabHost;
 
 
-public class MainActivity extends Activity {
+public class MainActivity extends FragmentActivity {
 
 	private static final String TAG = "MainActivity";
 	private static final int CREATE_NEW_TRIP = 1001;
@@ -32,12 +36,42 @@ public class MainActivity extends Activity {
 		setContentView(R.layout.activity_main);
 		
 		// TODO - fill in here
-		tripAdapter =
-				new ArrayAdapter<Trip>(this, android.R.layout.simple_list_item_1, tripList);
-		ListView tripListView = (ListView)findViewById(R.id.listView_main_trip_list);
-		tripListView.setAdapter(tripAdapter);
+		// Create tab views
+		FragmentTabHost tabHost = (FragmentTabHost)findViewById(android.R.id.tabhost);
+		tabHost.setup(this, getSupportFragmentManager(), android.R.id.tabcontent);
+//		tabHost.setup();
 
-		tripListView.setOnItemClickListener(listViewOnItemClickListener);
+		System.out.println("=====================MainActivity::onCreate=====================");
+		System.out.println("tabHost: " + tabHost);
+
+		FragmentTabHost.TabSpec tabCurTrip = tabHost.newTabSpec("Cur Trip");
+		FragmentTabHost.TabSpec tabUpComingTrips = tabHost.newTabSpec("Upcoming Trips");
+		FragmentTabHost.TabSpec tabHistoryTrips = tabHost.newTabSpec("History Trips");
+
+//		System.out.println("tabCurTrip: " + tabCurTrip);
+
+		// Set tab name and content
+		tabCurTrip.setIndicator("Cur", null);
+
+		tabUpComingTrips.setIndicator("Upcoming", null);
+
+		tabHistoryTrips.setIndicator("History", null);
+
+//		tabHost.addTab();
+
+		// Add tabs to tab host for display
+		tabHost.addTab(tabCurTrip, TabCurTripFragment.class, null);
+		tabHost.addTab(tabUpComingTrips, TabUpcomingTripsFragment.class, null);
+		tabHost.addTab(tabHistoryTrips, TabHistoryTripsFragment.class, null);
+
+
+		// Fill in content to list view
+//		tripAdapter =
+//				new ArrayAdapter<Trip>(this, android.R.layout.simple_list_item_1, tripList);
+//		ListView tripListView = (ListView)findViewById(R.id.listView_main_trip_list);
+//		tripListView.setAdapter(tripAdapter);
+//
+//		tripListView.setOnItemClickListener(listViewOnItemClickListener);
 
 	}
 

@@ -89,9 +89,9 @@ public class TripDatabaseHelper extends SQLiteOpenHelper {
         cv.put(COLUMN_LOC_TRIPID, tripID);
         cv.put(COLUMN_LOC_LAT, location.getLatitude());
         cv.put(COLUMN_LOC_LONG, location.getLongitude());
-        cv.put(COLUMN_LOC_ATI, location.getAltitude());
-        cv.put(COLUMN_LOC_PROVIDER, location.getProvider());
-        cv.put(COLUMN_LOC_TIMESTAMP, location.getTime());
+//        cv.put(COLUMN_LOC_ATI, location.getAltitude());
+//        cv.put(COLUMN_LOC_PROVIDER, location.getProvider());
+//        cv.put(COLUMN_LOC_TIMESTAMP, location.getTime());
 
         return getWritableDatabase().insert(TABLE_LOCATION, null, cv);
     }

@@ -2,6 +2,7 @@ package com.nyu.cs9033.eta.controllers;
 
 import com.nyu.cs9033.eta.dbHelpers.TripDatabaseHelper;
 import com.nyu.cs9033.eta.models.Trip;
+import com.nyu.cs9033.eta.models.Location;
 import com.nyu.cs9033.eta.R;
 
 import android.app.Activity;
@@ -35,11 +36,13 @@ public class CreateTripActivity extends Activity {
 	private EditText tripDestinationText;
 	private EditText tripFriendsText;
 	private final Calendar calendar = Calendar.getInstance();
+	private Location loc;
 
 	private final int REQUEST_CONTACT = 1; // OPT code for request contact
 	private final int SEARCH_LOC = 2; // OPT code for location search
 	// URI for using HW3API location service
 	private final Uri HW3API_LOC_URI = Uri.parse("location://com.example.nyu.hw3api");
+	private final String LOC_PROVIDER = "FOURSQUARE";
 
 	/**
 	 * Get current date and initial both TextEdit and  DatePicker
@@ -278,11 +281,6 @@ public class CreateTripActivity extends Activity {
 
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data){
-		System.out.println("=====================Enter CreateTripActivity::onActivityResult====================");
-		System.out.println("++++++request code: " + requestCode + "++++++++++++++++");
-		System.out.println("++++++result code: " + resultCode + "++++++++++++++++");
-		System.out.println("//////result OK code should be: " + Activity.RESULT_OK + "///////////");
-
 
 		// return directly if error occurs when try to pick contact
 		if(resultCode != Activity.RESULT_OK &&
@@ -293,7 +291,6 @@ public class CreateTripActivity extends Activity {
 				handlePickContactResult(data);
 				break;
 			case SEARCH_LOC:
-				System.out.println("===========Will call handleSearchLocResult()=============");
 				handleSearchLocResult(data);
 				break;
 		}
@@ -340,17 +337,14 @@ public class CreateTripActivity extends Activity {
 	 * Will be called by onActivityResult()
 	 * */
 	private void handleSearchLocResult(Intent data){
-		System.out.println("=====================Enter CreateTripActivity::handleSearchLocResult====================");
-
 		ArrayList<String> result = data.getExtras().getStringArrayList("retVal");
-		StringBuilder resultStr = new StringBuilder();
-		for(String str: result){
-			resultStr.append(str);
-			resultStr.append("--");
-		}
-		tripDestinationText.setText(result.get(0));
-		System.out.println("=====================" + resultStr + "====================");
-		System.out.println("=====================Exit CreateTripActivity::handleSearchLocResult====================");
+		loc = new Location();
+		loc.setName(result.get(0));
+		loc.setAddress(result.get(1));
+		loc.setLatitude(Double.valueOf(result.get(2)));
+		loc.setLongitude(Double.valueOf(result.get(3)));
+		// set text to be <Location.name>-<Location.address>
+		tripDestinationText.setText(result.get(0) + "-" + result.get(1));
 
 	}
 

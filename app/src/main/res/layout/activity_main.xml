@@ -19,21 +19,53 @@
         android:layout_alignParentEnd="true"
         android:onClick="startCreateTripActivity"/>
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Current Tips"
-        android:id="@+id/textView_main_title_tripList"
-        android:layout_below="@+id/button_newTrip"
-        android:layout_centerHorizontal="true" />
 
-    <ListView
+
+    <android.support.v4.app.FragmentTabHost
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/listView_main_trip_list"
-        android:layout_gravity="center_horizontal"
-        android:choiceMode="singleChoice"
-        android:layout_below="@+id/textView_main_title_tripList"
-        android:layout_centerHorizontal="true" />
+        android:layout_height="match_parent"
+        android:id="@android:id/tabhost"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/button_newTrip">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TabWidget
+                android:id="@android:id/tabs"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"></TabWidget>
+
+            <FrameLayout
+                android:id="@android:id/tabcontent"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <LinearLayout
+                    android:id="@+id/tab_cur_trip"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:layout_gravity="left|center_vertical"></LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/tab_upcoming_trips"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"></LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/tab_history_trips"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"></LinearLayout>
+
+
+            </FrameLayout>
+        </LinearLayout>
+    </android.support.v4.app.FragmentTabHost>
 
 </RelativeLayout>
