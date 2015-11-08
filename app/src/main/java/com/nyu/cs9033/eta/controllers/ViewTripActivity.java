@@ -22,6 +22,7 @@ public class ViewTripActivity extends Activity {
 		// TODO - fill in here
 		
 		Trip trip = getTrip(getIntent());
+
 		viewTrip(trip);
 	}
 	
@@ -52,17 +53,14 @@ public class ViewTripActivity extends Activity {
 	public void viewTrip(Trip trip) {
 		
 		// TODO - fill in here
-		/*TextView tripName = (TextView)findViewById(R.id.textView_view_trip_name_value);
-		TextView tripDate = (TextView)findViewById(R.id.textView_view_trip_date_value);
-		TextView tripLocation = (TextView)findViewById(R.id.textView_view_trip_location_value);
-		TextView friendName = (TextView)findViewById(R.id.textView_view_trip_friendName_value);
-		TextView friendLocation = (TextView)findViewById(R.id.textView_view_trip_friendLocation_value);
 
-		tripName.setText(trip.getName());
-		tripDate.setText(trip.getDate());
-		tripLocation.setText(trip.getLocation());
-		friendName.setText(trip.getFriend().getName());
-		friendLocation.setText(trip.getFriend().getLocation());*/
+		TextView time = (TextView)findViewById(R.id.textView_view_trip_time_value);
+		TextView tripLocation = (TextView)findViewById(R.id.textView_view_trip_location_value);
+		TextView friends = (TextView)findViewById(R.id.textView_view_trip_friendName_value);
+
+		time.setText(trip.getTime());
+		tripLocation.setText(trip.getDestination());
+		friends.setText(trip.getFriend());
 	}
 
 	/**

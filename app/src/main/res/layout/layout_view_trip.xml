@@ -13,8 +13,9 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Trip name"
-        android:id="@+id/textView_view_trip_name_value"
+        android:text="Detail"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:id="@+id/textView_view_trip_detail"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:editable="true"/>
@@ -22,40 +23,22 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Date: "
-        android:id="@+id/textView_view_trip_date"
-        android:layout_marginTop="34dp"
-        android:layout_below="@+id/textView_view_trip_name_value"
-        android:layout_alignRight="@+id/textView_view_trip_location"
-        android:layout_alignEnd="@+id/textView_view_trip_location" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="date value"
-        android:id="@+id/textView_view_trip_date_value"
-        android:layout_alignTop="@+id/textView_view_trip_date"
-        android:layout_toRightOf="@+id/textView_view_trip_name_value"
-        android:layout_toEndOf="@+id/textView_view_trip_name_value" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:text="Friend"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+
         android:id="@+id/textView_view_trip_friendName"
-        android:layout_marginTop="35dp"
-        android:layout_below="@+id/textView_view_trip_location"
-        android:layout_alignRight="@+id/textView_view_trip_date"
-        android:layout_alignEnd="@+id/textView_view_trip_date" />
+        android:layout_below="@+id/textView_view_trip_time_value"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Friend name value"
         android:id="@+id/textView_view_trip_friendName_value"
-        android:layout_alignTop="@+id/textView_view_trip_friendName"
-        android:layout_alignLeft="@+id/textView_view_trip_date_value"
-        android:layout_alignStart="@+id/textView_view_trip_date_value" />
+        android:layout_below="@+id/textView_view_trip_friendName"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
 
     <Button
         android:layout_width="wrap_content"
@@ -63,47 +46,48 @@
         android:text="OK"
         android:id="@+id/button_view_trip_ok"
         android:onClick="onClickOK"
-        android:layout_marginTop="55dp"
-        android:layout_below="@+id/textView_view_trip_friendName"
-        android:layout_toRightOf="@+id/textView_view_trip_friendName"
-        android:layout_toEndOf="@+id/textView_view_trip_friendName" />
+        android:layout_centerVertical="true"
+        android:layout_alignRight="@+id/textView_view_trip_detail"
+        android:layout_alignEnd="@+id/textView_view_trip_detail" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Location"
         android:id="@+id/textView_view_trip_location"
-        android:layout_marginTop="38dp"
-        android:layout_below="@+id/textView_view_trip_time"
-        android:layout_alignRight="@+id/textView_view_trip_time"
-        android:layout_alignEnd="@+id/textView_view_trip_time" />
+        android:textAppearance="?android:attr/textAppearanceMedium"
+
+        android:layout_below="@+id/textView_view_trip_detail"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Location value"
         android:id="@+id/textView_view_trip_location_value"
-        android:layout_alignTop="@+id/textView_view_trip_location"
-        android:layout_alignLeft="@+id/textView_view_trip_date_value"
-        android:layout_alignStart="@+id/textView_view_trip_date_value" />
+        android:layout_below="@+id/textView_view_trip_location"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Time"
+        android:textAppearance="?android:attr/textAppearanceMedium"
         android:id="@+id/textView_view_trip_time"
-        android:layout_marginTop="31dp"
-        android:layout_below="@+id/textView_view_trip_date"
-        android:layout_toLeftOf="@+id/textView_view_trip_name_value"
-        android:layout_toStartOf="@+id/textView_view_trip_name_value" />
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/textView_view_trip_location_value" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="time value"
-        android:id="@+id/textView_view_trip_value"
-        android:layout_alignTop="@+id/textView_view_trip_time"
-        android:layout_alignLeft="@+id/textView_view_trip_date_value"
-        android:layout_alignStart="@+id/textView_view_trip_date_value" />
+        android:id="@+id/textView_view_trip_time_value"
+        android:layout_below="@+id/textView_view_trip_time"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
 
 </RelativeLayout>

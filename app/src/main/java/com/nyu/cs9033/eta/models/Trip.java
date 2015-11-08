@@ -38,7 +38,7 @@ public class Trip implements Parcelable {
 		// TODO - fill in here
 //		this.name = p.readString();
 //		this.date = p.readString();
-		this.destination = p.readString();
+		this.time = p.readString();
 		this.destination = p.readString();
 		this.friends = p.readString();
 //		this.friends = p.readParcelable(Person.class.getClassLoader());
@@ -90,12 +90,9 @@ public class Trip implements Parcelable {
 	public void writeToParcel(Parcel dest, int flags) {
 		
 		// TODO - fill in here
-//		dest.writeString(this.name);
-//		dest.writeString(this.date);
 		dest.writeString(this.time);
 		dest.writeString(this.destination);
 		dest.writeString(this.friends);
-//		dest.writeParcelable(this.friend, 0);
 
 	}
 	
@@ -123,10 +120,6 @@ public class Trip implements Parcelable {
 
 	public String getFriend(){
 		return this.friends;
-	}
-
-	public String toString(){
-		return this.destination + " ---- " + this.time;
 	}
 
 	public void setDestination(String destination){
