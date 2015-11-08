@@ -47,7 +47,7 @@ public class TabHistoryTripsFragment extends Fragment {
         ListView listView = (ListView)view.findViewById(R.id.listView_history_trips);
 
         TripDatabaseHelper dbHelper = new TripDatabaseHelper(getActivity());
-        Cursor cursor = dbHelper.getAllTrips();
+        Cursor cursor = dbHelper.getHistoryTrips();
 
         String[] dbColumns = {
             "destination",

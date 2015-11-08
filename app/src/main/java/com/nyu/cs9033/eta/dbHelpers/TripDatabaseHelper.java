@@ -97,21 +97,47 @@ public class TripDatabaseHelper extends SQLiteOpenHelper {
     }
 
     public Cursor getAllTrips(){
-//        List<Trip> result = new ArrayList<Trip>();
-
         SQLiteDatabase db = this.getReadableDatabase();
-
-        Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_TRIP, null);
-
-//        for(cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext()){
-//            Trip trip = new Trip();
-//            trip.setTime(cursor.getString(1));
-//            trip.setDestination(cursor.getString(2));
-//            trip.setFriends(cursor.getString(3));
-//            result.add(trip);
-//        }
+        Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_TRIP + " ORDER BY TIME ASC", null);
 
         return cursor;
+    }
+
+    public Cursor getHistoryTrips(){
+        SQLiteDatabase db = this.getReadableDatabase();
+        /*query for history trip goes here*/
+        String queryStr = "SELECT * FROM " + TABLE_TRIP + " WHERE strftime('%s', "+
+                COLUMN_TRIP_TIME + ") < strftime('%s', 'now')";
+        Cursor cursor = db.rawQuery(queryStr, null);
+
+        return cursor;
+    }
+
+    public Cursor getUpcomingTrips(){
+        SQLiteDatabase db = this.getReadableDatabase();
+        /*query for upcoming trip goes here*/
+        String queryStr = "SELECT * FROM " + TABLE_TRIP + " WHERE strftime('%s', "+
+                COLUMN_TRIP_TIME + ") > strftime('%s', 'now')";
+        Cursor cursor = db.rawQuery(queryStr, null);
+
+        return cursor;
+    }
+
+    public Cursor getCurTrip(){
+        SQLiteDatabase db = this.getReadableDatabase();
+        /*query for current trip goes here*/
+        String queryStr = "" ;
+        Cursor cursor = db.rawQuery(queryStr, null);
+
+        return cursor;
+    }
+
+    private String getCurrentTime(){
+        String result = null;
+        Calendar cal = Calendar.getInstance();
+
+
+        return result;
     }
 
 }
