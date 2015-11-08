@@ -96,22 +96,22 @@ public class TripDatabaseHelper extends SQLiteOpenHelper {
         return getWritableDatabase().insert(TABLE_LOCATION, null, cv);
     }
 
-    public List<Trip> getAllTrips(){
-        List<Trip> result = new ArrayList<Trip>();
+    public Cursor getAllTrips(){
+//        List<Trip> result = new ArrayList<Trip>();
 
         SQLiteDatabase db = this.getReadableDatabase();
 
         Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_TRIP, null);
 
-        for(cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext()){
-            Trip trip = new Trip();
-            trip.setTime(cursor.getString(1));
-            trip.setDestination(cursor.getString(2));
-            trip.setFriends(cursor.getString(3));
-            result.add(trip);
-        }
+//        for(cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext()){
+//            Trip trip = new Trip();
+//            trip.setTime(cursor.getString(1));
+//            trip.setDestination(cursor.getString(2));
+//            trip.setFriends(cursor.getString(3));
+//            result.add(trip);
+//        }
 
-        return result;
+        return cursor;
     }
 
 }

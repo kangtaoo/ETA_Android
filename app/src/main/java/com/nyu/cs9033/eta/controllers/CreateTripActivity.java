@@ -213,11 +213,7 @@ public class CreateTripActivity extends Activity {
 
 		TripDatabaseHelper db = new TripDatabaseHelper(this);
 		db.insertTrip(trip);
-
-		List<Trip> result = db.getAllTrips();
-		for(Trip item: result){
-			System.out.println(item);
-		}
+		
 		return true;
 	}
 
