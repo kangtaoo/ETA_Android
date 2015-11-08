@@ -77,15 +77,27 @@ public class CreateTripActivity extends Activity {
 	}*/
 
 	private String buildDateStr(int year, int month, int day){
-		String dateStr = new StringBuilder()
-				.append(month+1).append("-")
-				.append(day).append("-")
-				.append(year).toString();
-		return dateStr;
+		StringBuilder dateStr = new StringBuilder()
+				.append(year).append("-");
+
+		if(month < 10) dateStr.append("0");
+		dateStr.append(month+1).append("-");
+
+		if(day < 10) dateStr.append("0");
+		dateStr.append(day);
+
+		return dateStr.toString();
 	}
 
 	private String buildTimeStr(int hour, int min){
-		return hour+":"+min;
+		StringBuilder timeStr = new StringBuilder();
+		if(hour < 10) timeStr.append("0");
+		timeStr.append(hour).append(":");
+
+		if(min < 10) timeStr.append("0");
+		timeStr.append(min);
+
+		return timeStr.toString();
 	}
 
 
@@ -213,7 +225,7 @@ public class CreateTripActivity extends Activity {
 
 		TripDatabaseHelper db = new TripDatabaseHelper(this);
 		db.insertTrip(trip);
-		
+
 		return true;
 	}
 
