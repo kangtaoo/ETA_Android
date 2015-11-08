@@ -4,10 +4,11 @@
     tools:context="com.nyu.cs9033.eta.controllers.TabUpcomingTripsFragment">
 
     <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment"
-        android:id="@+id/textView_upcoming_trips_hello"/>
+    <ListView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/listView_upcoming_trips"
+        android:layout_gravity="left|top"
+        android:choiceMode="singleChoice" />
 
 </FrameLayout>

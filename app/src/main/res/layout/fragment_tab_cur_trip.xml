@@ -5,60 +5,11 @@
     <!-- TODO: Update blank fragment layout -->
 
 
-    <TextView
+    <ListView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Location"
-        android:id="@+id/textView_cur_trip_loc"
+        android:id="@+id/listView_cur_trip_detail"
         android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Location value"
-        android:id="@+id/textView_cur_trip_loc_val"
-        android:layout_below="@+id/textView_cur_trip_loc"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="time"
-        android:id="@+id/textView_cur_trip_time"
-        android:layout_below="@+id/textView_cur_trip_loc_val"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="time value"
-        android:id="@+id/textView_cur_trip_time_val"
-        android:layout_below="@+id/textView_cur_trip_time"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Friends"
-        android:id="@+id/textView_cur_trip_friends"
-        android:layout_below="@+id/textView_cur_trip_time_val"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Friends value"
-        android:id="@+id/textView_cur_trip_friends_val"
-        android:layout_below="@+id/textView_cur_trip_friends"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
 </RelativeLayout>

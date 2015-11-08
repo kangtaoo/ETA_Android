@@ -79,6 +79,8 @@ public class TripDatabaseHelper extends SQLiteOpenHelper {
         cv.put(COLUMN_TRIP_TIME, trip.getTime());
         // Needs to get trip destination
         cv.put(COLUMN_TRIP_DESTINATION, trip.getDestination());
+        // Add friend lists for current trip
+        cv.put(COLUMN_TRIP_FRIENDS, trip.getFriend());
 
         // return id of new trip
         return getWritableDatabase().insert(TABLE_TRIP, null, cv);
@@ -107,7 +109,8 @@ public class TripDatabaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getReadableDatabase();
         /*query for history trip goes here*/
         String queryStr = "SELECT * FROM " + TABLE_TRIP + " WHERE strftime('%s', "+
-                COLUMN_TRIP_TIME + ") < strftime('%s', 'now')";
+                COLUMN_TRIP_TIME + ") < strftime('%s', 'now') ORDER BY " +
+                COLUMN_TRIP_TIME + " ASC";
         Cursor cursor = db.rawQuery(queryStr, null);
 
         return cursor;
@@ -116,18 +119,47 @@ public class TripDatabaseHelper extends SQLiteOpenHelper {
     public Cursor getUpcomingTrips(){
         SQLiteDatabase db = this.getReadableDatabase();
         /*query for upcoming trip goes here*/
-        String queryStr = "SELECT * FROM " + TABLE_TRIP + " WHERE strftime('%s', "+
-                COLUMN_TRIP_TIME + ") > strftime('%s', 'now')";
+
+        String queryStr;
+
+        Cursor cur = this.getCurTrip();
+
+        if(cur.getCount() == 0){
+            queryStr = "SELECT * FROM " + TABLE_TRIP + " WHERE strftime('%s', "+
+                    COLUMN_TRIP_TIME + ") > strftime('%s', 'now') ORDER BY " +
+                    COLUMN_TRIP_TIME + " ASC";
+        }else{
+            queryStr = "SELECT * FROM " + TABLE_TRIP + " WHERE strftime('%s', "+
+                    COLUMN_TRIP_TIME + ") > strftime('%s', 'now') ORDER BY " +
+                    COLUMN_TRIP_TIME + " ASC LIMIT " + Integer.MAX_VALUE +
+                    " OFFSET 1";
+        }
+
         Cursor cursor = db.rawQuery(queryStr, null);
 
         return cursor;
     }
 
     public Cursor getCurTrip(){
+//        Trip trip = null;
+
         SQLiteDatabase db = this.getReadableDatabase();
         /*query for current trip goes here*/
-        String queryStr = "" ;
+        String queryStr = "SELECT * FROM trip WHERE strftime('%s', " +
+                COLUMN_TRIP_TIME + ") > strftime('%s', 'now') AND " +
+                "date(" + COLUMN_TRIP_TIME + ") = date('now') " +
+                "ORDER BY " + COLUMN_TRIP_TIME + " LIMIT 1;" ;
         Cursor cursor = db.rawQuery(queryStr, null);
+        // Check whether there is current trip
+//        if(cursor.getCount() > 0){
+//            trip = new Trip();
+//            cursor.moveToFirst();
+//
+//            trip.setTime(cursor.getString(1));
+//            trip.setDestination(cursor.getString(2));
+//            trip.setFriends(cursor.getString(3));
+//        }
+
 
         return cursor;
     }
