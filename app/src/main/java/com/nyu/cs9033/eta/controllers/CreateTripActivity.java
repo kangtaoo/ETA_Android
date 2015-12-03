@@ -13,6 +13,7 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.ContactsContract;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.DatePicker;
@@ -21,7 +22,6 @@ import android.widget.TimePicker;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.List;
 
 public class CreateTripActivity extends Activity {
 	
@@ -64,18 +64,6 @@ public class CreateTripActivity extends Activity {
 		tripTimeText.setText(timeStr);
 	}
 
-	/**
-	 * Show dialog of date picker as well as time picker
-	 * */
-	/*@Override
-	public Dialog onCreateDialog(int id){
-		switch(id){
-			case DATE_PICKER_ID:
-				return new DatePickerDialog(this, datePickerListener, year, month, day);
-		}
-		return null;
-	}*/
-
 	private String buildDateStr(int year, int month, int day){
 		StringBuilder dateStr = new StringBuilder()
 				.append(year).append("-");
@@ -100,17 +88,6 @@ public class CreateTripActivity extends Activity {
 		return timeStr.toString();
 	}
 
-
-
-
-	/*private DatePickerDialog.OnDateSetListener datePickerListener =
-			new DatePickerDialog.OnDateSetListener(){
-				public void onDateSet(DatePicker view, int year, int month, int day){
-					String dateStr = buildDateStr(year, month, day);
-					EditText tripDateText = (EditText)findViewById(R.id.editText_new_trip_date);
-					tripDateText.setText(dateStr);
-				}
-			};*/
 
 	/**
 	 * Callback function for edit text of trip date
@@ -283,7 +260,7 @@ public class CreateTripActivity extends Activity {
 	private void pickContact(){
 		Intent pickContactIntent = new Intent(
 				Intent.ACTION_PICK,
-				ContactsContract.Contacts.CONTENT_URI);
+				ContactsContract.CommonDataKinds.Phone.CONTENT_URI);
 		startActivityForResult(pickContactIntent, REQUEST_CONTACT);
 	}
 
@@ -313,7 +290,8 @@ public class CreateTripActivity extends Activity {
 
 		// now query the ContentProvider with the data you want
 		String[] queryFields = new String[]{
-				ContactsContract.Contacts.DISPLAY_NAME
+				ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME,
+				ContactsContract.CommonDataKinds.Phone.NUMBER
 		};
 
 		Cursor c = getContentResolver().query(contactUri, queryFields, null, null, null);
@@ -330,6 +308,9 @@ public class CreateTripActivity extends Activity {
 		// Get the first row
 		c.moveToFirst();
 		String person = c.getString(0);
+		String number = c.getString(1);
+
+		Log.e(TAG, "=======handlePickContactResult::Contact's information: " + person + "-" + number + "=====");
 
 		if(friends.length() != 0){
 			friends += ",";
@@ -356,6 +337,10 @@ public class CreateTripActivity extends Activity {
 
 	}
 
+	/**
+	 * This function will send request and receive result from HW3API
+	 * to get location information
+	 * */
 	public void onClickSearchLocation(View view){
 		Intent searchLocationIntent = new Intent(
 				Intent.ACTION_VIEW, HW3API_LOC_URI);
@@ -367,4 +352,30 @@ public class CreateTripActivity extends Activity {
 		}
 	}
 
+	/**
+	 * This function will save contact information from
+	 * contact application to database
+	 * @return person _id
+	 * */
+	private int savePerson(){
+		return -1;
+	}
+
+	/**
+	 * This function will save trip person map
+	 * information to database
+	 * */
+	private void saveTripPersonMap(){
+
+	}
+
+
+	/**
+	 * This function will save location information
+	 * to database
+	 * @return location _id
+	 */
+	private int saveLocation(){
+		return -1;
+	}
 }
