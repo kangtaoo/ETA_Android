@@ -1,6 +1,7 @@
 package com.nyu.cs9033.eta.controllers;
 
 import com.nyu.cs9033.eta.dbHelpers.TripDatabaseHelper;
+import com.nyu.cs9033.eta.models.Person;
 import com.nyu.cs9033.eta.models.Trip;
 import com.nyu.cs9033.eta.models.Location;
 import com.nyu.cs9033.eta.R;
@@ -35,6 +36,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.Scanner;
 
 public class CreateTripActivity extends Activity {
@@ -58,6 +60,9 @@ public class CreateTripActivity extends Activity {
 	// URI for using HW3API location service
 	private final Uri HW3API_LOC_URI = Uri.parse("location://com.example.nyu.hw3api");
 	private final String LOC_PROVIDER = "FOURSQUARE";
+
+	private List<Person> personList;
+	private TripDatabaseHelper db;
 
 	/**
 	 * Get current date and initial both TextEdit and  DatePicker
@@ -152,6 +157,12 @@ public class CreateTripActivity extends Activity {
 		this.tripFriendsText = (EditText)findViewById(R.id.editText_new_trip_friends);
 
 		setCurrentDate();
+
+		//init person list
+		this.personList = new ArrayList<Person>();
+
+		//init database helper
+		db = new TripDatabaseHelper(this);
 	}
 	
 	/**
@@ -161,8 +172,8 @@ public class CreateTripActivity extends Activity {
 	 * @return The Trip as represented
 	 * by the View.
 	 */
-	public Trip createTrip() {
-	
+//	public void createTrip() {
+	public boolean validateInput(){
 		// TODO - fill in here
 
 		String tripDate = tripDateText.getText().toString().trim();
@@ -172,33 +183,27 @@ public class CreateTripActivity extends Activity {
 
 		if(tripDestination == null || tripDestination.trim().length() == 0){
 			tripDestinationText.setError("Trip name can not be empty");
-			return null;
+			return false;
 		}
 
 		if(tripDate == null || tripDate.trim().length() == 0){
 			tripDateText.setError("Trip date can not be empty");
-			return null;
+			return false;
 		}
 
 		if(tripTime == null || tripTime.trim().length() == 0){
 			tripTimeText.setError("Trip time can not be empty");
-			return null;
+			return false;
 		}
 
 		if(tripFriends == null || tripFriends.trim().length() == 0){
 			tripFriendsText.setError("Trip friend list can not be empty");
-			return null;
+			return false;
 		}
 
 		this.dateStr = tripDate+" "+tripTime;
 
-		Trip newTrip = new Trip(tripDate+" "+tripTime, tripDestination, tripFriends);
-
-		String url = "http://cs9033-homework.appspot.com/";
-
-		new CreateTripTask().execute(url);
-
-		return newTrip;
+		return true;
 	}
 
 	/**
@@ -213,7 +218,7 @@ public class CreateTripActivity extends Activity {
 	 * @return whether the Trip was successfully 
 	 * saved.
 	 */
-	public boolean saveTrip(Trip trip) {
+	public int saveTrip(TripDatabaseHelper db, Trip trip, long tripId) {
 
 		// TODO - fill in here
 
@@ -222,29 +227,33 @@ public class CreateTripActivity extends Activity {
 		 * In current implementation it will always return true;
 		 * */
 
-		TripDatabaseHelper db = new TripDatabaseHelper(this);
-		db.insertTrip(trip);
+		db.insertTrip(trip, tripId);
 
-		return true;
+		return 1;
 	}
 
 	public void onClickSaveTrip(View view){
 
 //		Intent intent = new Intent();
 
-		Trip newTrip = createTrip();
 
-		if(newTrip != null){
-			/* Save trip, will return save status */
-			boolean saveSuccess = saveTrip(newTrip);
 
-			if(saveSuccess){
+		boolean valid = validateInput();
 
-//				intent.putExtra("trip", newTrip);
+		if(valid){
+//			/* Save trip, will return save status */
+//			boolean saveSuccess = saveTrip(newTrip);
+//
+//			if(saveSuccess){
+//				finish();
+//			}
+			/**
+			 *  use async task to create trip record on web service
+			 *  also save data back to database
+			 *  */
+			String url = "http://cs9033-homework.appspot.com/";
 
-//				setResult(RESULT_OK, intent);
-				finish();
-			}
+			new CreateTripTask().execute(url);
 		}
 	}
 
@@ -329,15 +338,19 @@ public class CreateTripActivity extends Activity {
 
 		// Get the first row
 		c.moveToFirst();
-		String person = c.getString(0);
+		String name = c.getString(0);
 		String number = c.getString(1);
 
 		if(friends.length() != 0){
 			friends += ",";
 		}
-		friends += person;
+		friends += name;
 
 		tripFriendsText.setText(friends);
+
+		// add current person into person list
+		personList.add(new Person(name, number));
+
 		c.close();
 	}
 
@@ -377,16 +390,18 @@ public class CreateTripActivity extends Activity {
 	 * contact application to database
 	 * @return person _id
 	 * */
-	private int savePerson(){
-		return -1;
+	private int savePerson(TripDatabaseHelper db, Person person){
+		// first, search for existing person
+		// If no existing record, create new person
+		return (int)db.insertPerson(person);
 	}
 
 	/**
 	 * This function will save trip person map
 	 * information to database
 	 * */
-	private void saveTripPersonMap(){
-
+	private int saveTripPersonMap(TripDatabaseHelper db, long tripId, int personId){
+		return (int)db.insertTripPersonMap(tripId, personId);
 	}
 
 
@@ -395,8 +410,10 @@ public class CreateTripActivity extends Activity {
 	 * to database
 	 * @return location _id
 	 */
-	private int saveLocation(){
-		return -1;
+	private int saveLocation(TripDatabaseHelper db, Location location){
+		// first, search for existing location
+		// if no existing record, create new record
+		return (int)db.insertLocation(location);
 	}
 
 	private String sendCreateTripRequest(String urlStr) throws IOException {
@@ -482,13 +499,35 @@ public class CreateTripActivity extends Activity {
 
 		@Override
 		protected void onPostExecute(String result){
-			// Insert person
-			// Insert location
-			// Insert trip person map
-			// Insert trip
+
 			JSONObject json;
 			try{
 				json = new JSONObject(result);
+				int resCode = (Integer)json.get("response_code");
+				if(resCode != 0){
+					Log.e(TAG, "Error occur with HTTP request of creating trip");
+					return;
+				}
+				// Get tripID from web service
+				long tripId = (Long)json.get("trip_id");
+
+				// Insert location
+				int locId = saveLocation(db, loc);
+
+				Trip trip = new Trip(dateStr, locId, false, false);
+				// Insert trip
+				saveTrip(db, trip, tripId);
+
+				// for each person in the person array, a new person should be created
+				for(Person p: personList){
+					// Insert person
+					int personId = savePerson(db, p);
+					// Insert trip person map
+					saveTripPersonMap(db, tripId, personId);
+				}
+
+				finish();
+
 			}catch(JSONException je){
 				je.printStackTrace();
 				return;

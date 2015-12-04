@@ -50,7 +50,7 @@ public class TabCurTripFragment extends Fragment {
                 R.id.textView_trip_list_item_detail_friends
         };
 
-        SimpleCursorAdapter adapter = new SimpleCursorAdapter(
+        /*SimpleCursorAdapter adapter = new SimpleCursorAdapter(
                 getActivity(),
                 R.layout.layout_trip_list_item_detail,
                 cursor,
@@ -59,7 +59,7 @@ public class TabCurTripFragment extends Fragment {
                 0
         );
 
-        listView.setAdapter(adapter);
+        listView.setAdapter(adapter);*/
 
         return view;
     }

@@ -41,8 +41,8 @@ public class TabHistoryTripsFragment extends Fragment {
 
             Trip trip = new Trip();
             trip.setTime(cursor.getString(1));
-            trip.setDestination(cursor.getString(2));
-            trip.setFriends(cursor.getString(3));
+//            trip.setDestination(cursor.getString(2));
+//            trip.setFriends(cursor.getString(3));
 
 
             Intent intent = new Intent(getActivity(), ViewTripActivity.class);
@@ -72,7 +72,7 @@ public class TabHistoryTripsFragment extends Fragment {
             R.id.textView_trip_list_item_time
         };
 
-        SimpleCursorAdapter adapter = new SimpleCursorAdapter(
+        /*SimpleCursorAdapter adapter = new SimpleCursorAdapter(
                 getActivity(),
                 R.layout.layout_trip_list_item,
                 cursor,
@@ -81,7 +81,7 @@ public class TabHistoryTripsFragment extends Fragment {
                 0
                 );
 
-        listView.setAdapter(adapter);
+        listView.setAdapter(adapter);*/
         listView.setOnItemClickListener(listViewOnItemClickListener);
 
         return view;

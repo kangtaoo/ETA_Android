@@ -59,8 +59,8 @@ public class ViewTripActivity extends Activity {
 		TextView friends = (TextView)findViewById(R.id.textView_view_trip_friendName_value);
 
 		time.setText(trip.getTime());
-		tripLocation.setText(trip.getDestination());
-		friends.setText(trip.getFriend());
+//		tripLocation.setText(trip.getDestination());
+//		friends.setText(trip.getFriend());
 	}
 
 	/**

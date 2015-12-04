@@ -7,12 +7,13 @@ public class Trip implements Parcelable {
 	
 	// Member fields should exist here, what else do you need for a trip?
 	// Please add additional fields
-//	private String name;
-//	private String date;
 	private String time;
-	private String destination;
-	private String friends;
-	
+	private int locId;
+	// record trip's status, whether corresponding trip is active (current trip)
+	boolean isActive;
+	// record trip's status, whether current user is arrived
+	boolean isArrived;
+
 	/**
 	 * Parcelable creator. Do not modify this function.
 	 */
@@ -39,8 +40,9 @@ public class Trip implements Parcelable {
 //		this.name = p.readString();
 //		this.date = p.readString();
 		this.time = p.readString();
-		this.destination = p.readString();
-		this.friends = p.readString();
+		this.locId = p.readInt();
+		this.isActive = p.readByte()==1;
+		this.isArrived = p.readByte() == 1;
 //		this.friends = p.readParcelable(Person.class.getClassLoader());
 	}
 
@@ -62,15 +64,14 @@ public class Trip implements Parcelable {
 	 * Add arbitrary number of arguments to
 	 * instantiate Trip class based on member variables.
 	 */
-	public Trip(String time, String destination, String friends) {
+	public Trip(String time, int locId, boolean isActive, boolean isArrived) {
 		
 		// TODO - fill in here, please note you must have more arguments here
-//		this.name = name;
-//		this.date = date;
-		this.time = time;
-		this.destination = destination;
-		this.friends = friends;
 
+		this.time = time;
+		this.locId = locId;
+		this.isActive = isActive;
+		this.isArrived = isArrived;
 	}
 
 	/**
@@ -91,9 +92,9 @@ public class Trip implements Parcelable {
 		
 		// TODO - fill in here
 		dest.writeString(this.time);
-		dest.writeString(this.destination);
-		dest.writeString(this.friends);
-
+		dest.writeInt(this.locId);
+		dest.writeByte((byte)(isActive ? 1 : 0));
+		dest.writeByte((byte)(isArrived?1:0));
 	}
 	
 	/**
@@ -114,24 +115,32 @@ public class Trip implements Parcelable {
 		return this.time;
 	}
 
-	public String getDestination(){
-		return this.destination;
+	public int getLocId(){
+		return this.locId;
 	}
 
-	public String getFriend(){
-		return this.friends;
+	public boolean isActive(){
+		return this.isActive;
 	}
 
-	public void setDestination(String destination){
-		this.destination = destination;
+	public boolean isArrived(){
+		return this.isArrived;
+	}
+
+	public void setLocId(int id){
+		this.locId = id;
+	}
+
+	public void setActvie(boolean b){
+		this.isActive = b;
+	}
+
+	public void setArrived(boolean b){
+		this.isArrived = b;
 	}
 
 	public void setTime(String time){
 		this.time = time;
-	}
-
-	public void setFriends(String friends){
-		this.friends = friends;
 	}
 
 }
