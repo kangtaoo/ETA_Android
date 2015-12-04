@@ -100,4 +100,13 @@ public class Location implements Parcelable{
     public double getLatitude() { return this.latitude; }
     public double getLongitude() { return this.longitude; }
 
+    public String toString(){
+        StringBuilder builder = new StringBuilder();
+        builder.append(this.name).append('-');
+        builder.append(this.address).append('-');
+        builder.append(this.latitude).append('-');
+        builder.append(this.longitude);
+        return builder.toString();
+    }
+
 }
