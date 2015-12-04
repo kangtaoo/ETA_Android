@@ -8,7 +8,7 @@ public class Person implements Parcelable {
 	// Member fields should exist here, what else do you need for a person?
 	// Please add additional fields
 	private String name;
-	private String location;
+	private String number;
 	
 	/**
 	 * Parcelable creator. Do not modify this function.
@@ -34,7 +34,7 @@ public class Person implements Parcelable {
 		
 		// TODO - fill in here
 		this.name = p.readString();
-//		this.location = p.readString();
+		this.number = p.readString();
 	}
 	
 	/**
@@ -43,11 +43,11 @@ public class Person implements Parcelable {
 	 * @param name Add arbitrary number of arguments to
 	 * instantiate Person class based on member variables.
 	 */
-	public Person(String name) {
+	public Person(String name, String number) {
 		
 		// TODO - fill in here, please note you must have more arguments here
 		this.name = name;
-//		this.location = location;
+		this.number = number;
 	}
 
 	/**
@@ -68,7 +68,7 @@ public class Person implements Parcelable {
 		
 		// TODO - fill in here
 		dest.writeString(this.name);
-//		dest.writeString(this.location);
+		dest.writeString(this.number);
 	}
 	
 	/**
@@ -88,7 +88,7 @@ public class Person implements Parcelable {
 		return this.name;
 	}
 
-	public String getLocation(){
-		return this.location;
+	public String getNumber(){
+		return this.number;
 	}
 }
