@@ -11,6 +11,7 @@ import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.util.Log;
@@ -20,8 +21,21 @@ import android.widget.DatePicker;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.DataOutputStream;
+import java.io.IOException;
+
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
+import java.util.Scanner;
 
 public class CreateTripActivity extends Activity {
 	
@@ -37,6 +51,7 @@ public class CreateTripActivity extends Activity {
 	private EditText tripFriendsText;
 	private final Calendar calendar = Calendar.getInstance();
 	private Location loc;
+	private String dateStr;
 
 	private final int REQUEST_CONTACT = 1; // OPT code for request contact
 	private final int SEARCH_LOC = 2; // OPT code for location search
@@ -175,7 +190,14 @@ public class CreateTripActivity extends Activity {
 			return null;
 		}
 
+		this.dateStr = tripDate+" "+tripTime;
+
 		Trip newTrip = new Trip(tripDate+" "+tripTime, tripDestination, tripFriends);
+
+		String url = "http://cs9033-homework.appspot.com/";
+
+		new CreateTripTask().execute(url);
+
 		return newTrip;
 	}
 
@@ -310,8 +332,6 @@ public class CreateTripActivity extends Activity {
 		String person = c.getString(0);
 		String number = c.getString(1);
 
-		Log.e(TAG, "=======handlePickContactResult::Contact's information: " + person + "-" + number + "=====");
-
 		if(friends.length() != 0){
 			friends += ",";
 		}
@@ -378,4 +398,104 @@ public class CreateTripActivity extends Activity {
 	private int saveLocation(){
 		return -1;
 	}
+
+	private String sendCreateTripRequest(String urlStr) throws IOException {
+		String UserAgent = "Mozilla/5.0";
+		String postBody = buildPostBody();
+		Log.e(TAG, "=====sendCreateTripRequest::post body is: " + postBody + "========");
+		StringBuilder response = new StringBuilder();
+
+		URL url = new URL(urlStr);
+
+
+		HttpURLConnection con = (HttpURLConnection)url.openConnection();
+		con.setDoOutput(true);
+		con.setDoInput(true);
+		// may want to set timeout
+		try{
+			con.setRequestMethod("POST");
+			con.setRequestProperty("User-Agent", UserAgent);
+
+			DataOutputStream out = new DataOutputStream(con.getOutputStream());
+			out.writeBytes(postBody);
+
+			out.flush();
+			out.close();
+
+			Scanner in = new Scanner(con.getInputStream());
+			while(in.hasNext()){
+				response.append(in.nextLine());
+				Log.e(TAG, "======sendCreateTripRequest::response is: " + response + "===========");
+			}
+		}finally{
+			con.disconnect();
+		}
+		return response.toString();
+	}
+
+	/**
+	 * This method will help to build post body in json string format
+	 * */
+	private String buildPostBody(){
+		JSONObject jsonObj = new JSONObject();
+		String[] locInfo = null;
+		DateFormat format = new SimpleDateFormat("yyyy-mm-dd hh:mm");
+		Date date;
+
+		try{
+			jsonObj.put("command", "CREATE_TRIP");
+			if(this.loc != null){
+				locInfo = new String[]{loc.getName(), loc.getAddress(),
+					Double.toString(loc.getLatitude()), Double.toString(loc.getLongitude())};
+				jsonObj.put("location", locInfo);
+			}
+			date = format.parse(this.dateStr);
+			jsonObj.put("datetime", date.getTime()/1000);
+			jsonObj.put("people", tripFriendsText.getText().toString().trim());
+
+		}catch(JSONException je){
+			je.printStackTrace();
+			return null;
+		}catch(ParseException pe){
+			pe.printStackTrace();
+			return null;
+		}
+
+		return jsonObj.toString();
+	}
+
+	/**
+	 * private inner class CreateTripTask
+	 * Will send POST request to web service
+	 * */
+	private class CreateTripTask extends AsyncTask<String, Void, String> {
+		@Override
+		protected String doInBackground(String... urls){
+			String result = null;
+			try{
+				result = sendCreateTripRequest(urls[0]);
+			}catch(IOException ioe){
+				ioe.printStackTrace();
+			}
+			return result;
+		}
+
+		@Override
+		protected void onPostExecute(String result){
+			// Insert person
+			// Insert location
+			// Insert trip person map
+			// Insert trip
+			JSONObject json;
+			try{
+				json = new JSONObject(result);
+			}catch(JSONException je){
+				je.printStackTrace();
+				return;
+			}
+
+		}
+	}
+
 }
+
