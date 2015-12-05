@@ -5,18 +5,15 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.ListFragment;
 import android.support.v4.widget.SimpleCursorAdapter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import com.nyu.cs9033.eta.R;
 import com.nyu.cs9033.eta.dbHelpers.TripDatabaseHelper;
-import com.nyu.cs9033.eta.models.Trip;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -39,14 +36,18 @@ public class TabHistoryTripsFragment extends Fragment {
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
             Cursor cursor = (Cursor) parent.getItemAtPosition(position);
 
-            Trip trip = new Trip();
-            trip.setTime(cursor.getString(1));
-//            trip.setDestination(cursor.getString(2));
-//            trip.setFriends(cursor.getString(3));
-
+            /**
+             * cursor result structure:
+             * 0: trip ID (int)
+             * 1. trip time
+             * 2: location name
+             * 3: location address
+             * */
 
             Intent intent = new Intent(getActivity(), ViewTripActivity.class);
-            intent.putExtra("trip", trip);
+            intent.putExtra("tripId", cursor.getLong(0));
+            intent.putExtra("time", cursor.getString(1));
+            intent.putExtra("address", cursor.getString(3));
             startActivity(intent);
         }
     };
@@ -63,7 +64,7 @@ public class TabHistoryTripsFragment extends Fragment {
         Cursor cursor = dbHelper.getHistoryTrips();
 
         String[] dbColumns = {
-            "destination",
+            "name",
             "time"
         };
 
@@ -72,7 +73,7 @@ public class TabHistoryTripsFragment extends Fragment {
             R.id.textView_trip_list_item_time
         };
 
-        /*SimpleCursorAdapter adapter = new SimpleCursorAdapter(
+        SimpleCursorAdapter adapter = new SimpleCursorAdapter(
                 getActivity(),
                 R.layout.layout_trip_list_item,
                 cursor,
@@ -81,7 +82,7 @@ public class TabHistoryTripsFragment extends Fragment {
                 0
                 );
 
-        listView.setAdapter(adapter);*/
+        listView.setAdapter(adapter);
         listView.setOnItemClickListener(listViewOnItemClickListener);
 
         return view;

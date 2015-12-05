@@ -44,11 +44,6 @@ public class TabUpcomingTripsFragment extends Fragment {
              * 2: location name
              * 3: location address
              * */
-//            Trip trip = new Trip();
-//            trip.setTime(cursor.getString(1));
-//            trip.setDestination(cursor.getString(2));
-//            trip.setFriends(cursor.getString(3));
-
 
             Intent intent = new Intent(getActivity(), ViewTripActivity.class);
             intent.putExtra("tripId", cursor.getLong(0));

@@ -143,11 +143,16 @@ public class TripDatabaseHelper extends SQLiteOpenHelper {
     public Cursor getHistoryTrips(){
         SQLiteDatabase db = this.getReadableDatabase();
         /*query for history trip goes here*/
-        String queryStr = "SELECT * FROM " + TABLE_TRIP + " WHERE strftime('%s', "+
-                COLUMN_TRIP_TIME + ") < strftime('%s', 'now') ORDER BY " +
-                COLUMN_TRIP_TIME + " ASC";
-        Cursor cursor = db.rawQuery(queryStr, null);
+        String queryStr = "SELECT " + TABLE_TRIP + "." +
+                COLUMN_TRIP_ID + ", " + COLUMN_TRIP_TIME + ", " +
+                COLUMN_LOC_NAME + ", "+ COLUMN_LOC_ADDRESS + " FROM " +
+                TABLE_TRIP + ", " + TABLE_LOCATION + " WHERE (strftime('%s', " +
+                COLUMN_TRIP_TIME + ") <= strftime('%s', 'now') OR " +
+                COLUMN_TRIP_FINISHED + " = 1) AND " +
+                COLUMN_TRIP_LOCATION_ID + " = " + TABLE_LOCATION + "." +
+                COLUMN_LOC_ID +" ORDER BY " + COLUMN_TRIP_TIME + " ASC";
 
+        Cursor cursor = db.rawQuery(queryStr, null);
         return cursor;
     }
 
