@@ -17,7 +17,7 @@ import java.util.*;
  * Created by kangkang on 10/22/15.
  */
 public class TripDatabaseHelper extends SQLiteOpenHelper {
-    private static final int DATABASE_VERSION = 2;
+    private static final int DATABASE_VERSION = 3;
     private static final String DATABASE_NAME = "trips";
     private static final String TABLE_TRIP = "trip";
     private static final String COLUMN_TRIP_ID = "_id";
@@ -26,7 +26,7 @@ public class TripDatabaseHelper extends SQLiteOpenHelper {
     private static final String COLUMN_TRIP_LOCATION_ID = "location_id";
     private static final String COLUMN_TRIP_ACTIVE = "active";
     private static final String COLUMN_TRIP_ARRIVED = "arrived";
-
+    private static final String COLUMN_TRIP_FINISHED = "finished";
 
     private static final String TABLE_LOCATION = "location";
 
@@ -59,7 +59,8 @@ public class TripDatabaseHelper extends SQLiteOpenHelper {
                 + COLUMN_TRIP_LOCATION_ID + " REFERENCES location(_id), "
                 + COLUMN_TRIP_TIME + " TEXT, "
                 + COLUMN_TRIP_ACTIVE + " INTEGER, "
-                + COLUMN_TRIP_ARRIVED + " INTEGER)";
+                + COLUMN_TRIP_ARRIVED + " INTEGER,"
+                + COLUMN_TRIP_FINISHED + " INTEGER);";
 
         // Create trip table
         db.execSQL(createTripTable);
@@ -102,27 +103,24 @@ public class TripDatabaseHelper extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    public long insertTrip(Trip trip, long locId){
+    public long insertTrip(Trip trip, long tripId,long locId){
         ContentValues cv = new ContentValues();
+        // Add trip id into current trip which get from web service
+        cv.put(COLUMN_TRIP_ID, tripId);
         // Needs to get trip time information
         cv.put(COLUMN_TRIP_TIME, trip.getTime());
         // Add location id into current trip
         cv.put(COLUMN_TRIP_LOCATION_ID, locId);
         // Needs to get trip destination
         cv.put(COLUMN_TRIP_ACTIVE, trip.isActive() ? 1 : 0);
-        // Add friend lists for current trip
+        // Add flag to mark whether user has arrived for current trip
         cv.put(COLUMN_TRIP_ARRIVED, trip.isArrived() ? 1 : 0);
-
+        // Add flag to mark whether trip has been finished
+        cv.put(COLUMN_TRIP_FINISHED, trip.isFinished()?1:0);
         // return id of new trip
         return getWritableDatabase().insert(TABLE_TRIP, null, cv);
     }
 
-    /**
-     * @return search result with given latitude and longitude
-     * */
-    public Cursor getLocation(double latitude, double longitude){
-        return null;
-    }
 
     public long insertLocation(Location location){
         ContentValues cv = new ContentValues();
@@ -157,20 +155,12 @@ public class TripDatabaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getReadableDatabase();
         /*query for upcoming trip goes here*/
 
-        String queryStr;
-
-        Cursor cur = this.getCurTrip();
-
-        if(cur.getCount() == 0){
-            queryStr = "SELECT * FROM " + TABLE_TRIP + " WHERE strftime('%s', "+
-                    COLUMN_TRIP_TIME + ") > strftime('%s', 'now') ORDER BY " +
-                    COLUMN_TRIP_TIME + " ASC";
-        }else{
-            queryStr = "SELECT * FROM " + TABLE_TRIP + " WHERE strftime('%s', "+
-                    COLUMN_TRIP_TIME + ") > strftime('%s', 'now') ORDER BY " +
-                    COLUMN_TRIP_TIME + " ASC LIMIT " + Integer.MAX_VALUE +
-                    " OFFSET 1";
-        }
+        String queryStr = "SELECT " + TABLE_TRIP + "._id, time, name FROM " +
+                TABLE_TRIP + ", " + TABLE_LOCATION + " WHERE strftime('%s', " +
+                COLUMN_TRIP_TIME + ") > strftime('%s', 'now') AND " +
+                COLUMN_TRIP_FINISHED + " = 0 AND " +
+                COLUMN_TRIP_LOCATION_ID + " = " + TABLE_LOCATION + "." + COLUMN_LOC_ID +" ORDER BY " +
+                COLUMN_TRIP_TIME + " ASC";
 
         Cursor cursor = db.rawQuery(queryStr, null);
 
@@ -184,7 +174,7 @@ public class TripDatabaseHelper extends SQLiteOpenHelper {
         String queryStr = "SELECT * FROM trip WHERE strftime('%s', " +
                 COLUMN_TRIP_TIME + ") > strftime('%s', 'now') AND " +
                 "date(" + COLUMN_TRIP_TIME + ") = date('now') " +
-                "ORDER BY " + COLUMN_TRIP_TIME + " LIMIT 1;" ;
+                " ORDER BY " + COLUMN_TRIP_TIME + " LIMIT 1;" ;
         Cursor cursor = db.rawQuery(queryStr, null);
 
         return cursor;

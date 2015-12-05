@@ -14,6 +14,8 @@ public class Trip implements Parcelable {
 	// record trip's status, whether current user is arrived
 	boolean isArrived;
 
+	boolean isFinished;
+
 	/**
 	 * Parcelable creator. Do not modify this function.
 	 */
@@ -41,8 +43,9 @@ public class Trip implements Parcelable {
 //		this.date = p.readString();
 		this.time = p.readString();
 		this.locId = p.readInt();
-		this.isActive = p.readByte()==1;
-		this.isArrived = p.readByte() == 1;
+		this.isActive = (p.readByte()==1);
+		this.isArrived = (p.readByte() == 1);
+		this.isFinished = (p.readByte() == 1);
 //		this.friends = p.readParcelable(Person.class.getClassLoader());
 	}
 
@@ -64,7 +67,7 @@ public class Trip implements Parcelable {
 	 * Add arbitrary number of arguments to
 	 * instantiate Trip class based on member variables.
 	 */
-	public Trip(String time, int locId, boolean isActive, boolean isArrived) {
+	public Trip(String time, int locId, boolean isActive, boolean isArrived, boolean isFinished) {
 		
 		// TODO - fill in here, please note you must have more arguments here
 
@@ -72,6 +75,7 @@ public class Trip implements Parcelable {
 		this.locId = locId;
 		this.isActive = isActive;
 		this.isArrived = isArrived;
+		this.isFinished = isFinished;
 	}
 
 	/**
@@ -95,6 +99,7 @@ public class Trip implements Parcelable {
 		dest.writeInt(this.locId);
 		dest.writeByte((byte)(isActive ? 1 : 0));
 		dest.writeByte((byte)(isArrived?1:0));
+		dest.writeByte((byte)(isFinished?1:0));
 	}
 	
 	/**
@@ -127,6 +132,10 @@ public class Trip implements Parcelable {
 		return this.isArrived;
 	}
 
+	public boolean isFinished(){
+		return this.isFinished;
+	}
+
 	public void setLocId(int id){
 		this.locId = id;
 	}
@@ -137,6 +146,10 @@ public class Trip implements Parcelable {
 
 	public void setArrived(boolean b){
 		this.isArrived = b;
+	}
+
+	public void setFinished(boolean b) {
+		this.isFinished = b;
 	}
 
 	public void setTime(String time){

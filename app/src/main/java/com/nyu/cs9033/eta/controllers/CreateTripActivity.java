@@ -218,7 +218,7 @@ public class CreateTripActivity extends Activity {
 	 * @return whether the Trip was successfully 
 	 * saved.
 	 */
-	public int saveTrip(TripDatabaseHelper db, Trip trip, long tripId) {
+	public int saveTrip(TripDatabaseHelper db, Trip trip, long tripId, long locId ) {
 
 		// TODO - fill in here
 
@@ -227,7 +227,7 @@ public class CreateTripActivity extends Activity {
 		 * In current implementation it will always return true;
 		 * */
 
-		db.insertTrip(trip, tripId);
+		db.insertTrip(trip, tripId, locId);
 
 		return 1;
 	}
@@ -520,14 +520,14 @@ public class CreateTripActivity extends Activity {
 					return;
 				}
 				// Get tripID from web service
-				long tripId = (Long)json.get("trip_id");
+				long tripId = ((Number)json.get("trip_id")).longValue();
 
 				// Insert location
 				int locId = saveLocation(db, loc);
 
-				Trip trip = new Trip(dateStr, locId, false, false);
+				Trip trip = new Trip(dateStr, locId, false, false, false);
 				// Insert trip
-				saveTrip(db, trip, tripId);
+				saveTrip(db, trip, tripId, locId);
 
 				// for each person in the person array, a new person should be created
 				for(Person p: personList){

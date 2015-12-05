@@ -61,7 +61,7 @@ public class TabUpcomingTripsFragment extends Fragment {
         Cursor cursor = dbHelper.getUpcomingTrips();
 
         String[] dbColumns = {
-                "destination",
+                "name",
                 "time"
         };
 
@@ -70,7 +70,7 @@ public class TabUpcomingTripsFragment extends Fragment {
                 R.id.textView_trip_list_item_time
         };
 
-        /*SimpleCursorAdapter adapter = new SimpleCursorAdapter(
+        SimpleCursorAdapter adapter = new SimpleCursorAdapter(
                 getActivity(),
                 R.layout.layout_trip_list_item,
                 cursor,
@@ -79,7 +79,7 @@ public class TabUpcomingTripsFragment extends Fragment {
                 0
         );
 
-        listView.setAdapter(adapter);*/
+        listView.setAdapter(adapter);
         listView.setOnItemClickListener(listViewOnItemClickListener);
 
         return view;
