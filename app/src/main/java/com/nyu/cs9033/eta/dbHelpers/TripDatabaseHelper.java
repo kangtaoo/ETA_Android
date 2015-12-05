@@ -116,7 +116,7 @@ public class TripDatabaseHelper extends SQLiteOpenHelper {
         // Add flag to mark whether user has arrived for current trip
         cv.put(COLUMN_TRIP_ARRIVED, trip.isArrived() ? 1 : 0);
         // Add flag to mark whether trip has been finished
-        cv.put(COLUMN_TRIP_FINISHED, trip.isFinished()?1:0);
+        cv.put(COLUMN_TRIP_FINISHED, trip.isFinished() ? 1 : 0);
         // return id of new trip
         return getWritableDatabase().insert(TABLE_TRIP, null, cv);
     }
@@ -155,12 +155,14 @@ public class TripDatabaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getReadableDatabase();
         /*query for upcoming trip goes here*/
 
-        String queryStr = "SELECT " + TABLE_TRIP + "._id, time, name FROM " +
+        String queryStr = "SELECT " + TABLE_TRIP + "." +
+                COLUMN_TRIP_ID + ", " + COLUMN_TRIP_TIME + ", " +
+                COLUMN_LOC_NAME + ", "+ COLUMN_LOC_ADDRESS + " FROM " +
                 TABLE_TRIP + ", " + TABLE_LOCATION + " WHERE strftime('%s', " +
                 COLUMN_TRIP_TIME + ") > strftime('%s', 'now') AND " +
                 COLUMN_TRIP_FINISHED + " = 0 AND " +
-                COLUMN_TRIP_LOCATION_ID + " = " + TABLE_LOCATION + "." + COLUMN_LOC_ID +" ORDER BY " +
-                COLUMN_TRIP_TIME + " ASC";
+                COLUMN_TRIP_LOCATION_ID + " = " + TABLE_LOCATION + "." +
+                COLUMN_LOC_ID +" ORDER BY " + COLUMN_TRIP_TIME + " ASC";
 
         Cursor cursor = db.rawQuery(queryStr, null);
 
@@ -230,6 +232,17 @@ public class TripDatabaseHelper extends SQLiteOpenHelper {
 
         Cursor result = db.rawQuery(queryStr, null);
 
+        return result;
+    }
+
+    public Cursor getPersonByTripId(long tripId){
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        String queryStr = "SELECT " + COLUMN_PERSON_NAME + " FROM " + TABLE_TRIP_PERSON_MAP +
+                ", " + TABLE_PERSON + " WHERE " + COLUMN_TPM_TRIPID + " = " + tripId + " AND " +
+                TABLE_PERSON + "." + COLUMN_PERSON_ID + " = " + COLUMN_TPM_PERSONID + ";";
+
+        Cursor result = db.rawQuery(queryStr, null);
         return result;
     }
 }

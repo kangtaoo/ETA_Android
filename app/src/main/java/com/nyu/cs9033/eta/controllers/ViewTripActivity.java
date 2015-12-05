@@ -1,56 +1,86 @@
 package com.nyu.cs9033.eta.controllers;
 
+import com.nyu.cs9033.eta.dbHelpers.TripDatabaseHelper;
 import com.nyu.cs9033.eta.models.Trip;
 import com.nyu.cs9033.eta.R;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
 
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
 public class ViewTripActivity extends Activity {
 
 	private static final String TAG = "ViewTripActivity";
+
+	private long tripId;
+	private String address;
+	private String friends;
+	private String time;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.layout_view_trip);
-
 		// TODO - fill in here
 		
-		Trip trip = getTrip(getIntent());
+		initFields(getIntent());
 
-		viewTrip(trip);
+		viewTrip();
 	}
-	
-	/**
-	 * Create a Trip object via the recent trip that
-	 * was passed to TripViewer via an Intent.
-	 * 
-	 * @param i The Intent that contains
-	 * the most recent trip data.
-	 * 
-	 * @return The Trip that was most recently
-	 * passed to TripViewer, or null if there
-	 * is none.
-	 */
-	public Trip getTrip(Intent i) {
-		
-		// TODO - fill in here
-		Trip trip = i.getExtras().getParcelable("trip");
-		return trip;
+
+//	/**
+//	 * Create a Trip object via the recent trip that
+//	 * was passed to TripViewer via an Intent.
+//	 *
+//	 * @param i The Intent that contains
+//	 * the most recent trip data.
+//	 *
+//	 * @return The Trip that was most recently
+//	 * passed to TripViewer, or null if there
+//	 * is none.
+//	 */
+//	public Trip getTrip(Intent i) {
+//
+//		// TODO - fill in here
+//		Trip trip = i.getExtras().getParcelable("trip");
+//		return trip;
+//	}
+
+	private void initFields(Intent i){
+		tripId = i.getExtras().getLong("tripId");
+		Log.e(TAG, "=======initFields::trip id is: " + tripId + "==========");
+		address = i.getExtras().getString("address");
+
+		friends = buildFriendList(tripId);
+		Log.e(TAG, "=======initFields::friend list: " + friends + "===========");
+		time = i.getExtras().getString("time");
+	}
+
+	private String buildFriendList(long tripId){
+		StringBuilder builder = new StringBuilder();
+		TripDatabaseHelper db = new TripDatabaseHelper(this);
+
+		Cursor cursor = db.getPersonByTripId(tripId);
+		while(cursor.moveToNext()){
+			builder.append(cursor.getString(0));
+			if (!cursor.isLast()){
+				builder.append(',');
+			}
+		}
+		return builder.toString();
 	}
 
 	/**
 	 * Populate the View using a Trip model.
 	 * 
-	 * @param trip The Trip model used to
 	 * populate the View.
 	 */
-	public void viewTrip(Trip trip) {
+	public void viewTrip() {
 		
 		// TODO - fill in here
 
@@ -58,9 +88,9 @@ public class ViewTripActivity extends Activity {
 		TextView tripLocation = (TextView)findViewById(R.id.textView_view_trip_location_value);
 		TextView friends = (TextView)findViewById(R.id.textView_view_trip_friendName_value);
 
-		time.setText(trip.getTime());
-//		tripLocation.setText(trip.getDestination());
-//		friends.setText(trip.getFriend());
+		time.setText(this.time);
+		tripLocation.setText(this.address);
+		friends.setText(this.friends);
 	}
 
 	/**
