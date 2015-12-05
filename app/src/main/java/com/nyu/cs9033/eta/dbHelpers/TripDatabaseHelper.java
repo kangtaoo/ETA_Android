@@ -178,10 +178,15 @@ public class TripDatabaseHelper extends SQLiteOpenHelper {
 
         SQLiteDatabase db = this.getReadableDatabase();
         /*query for current trip goes here*/
-        String queryStr = "SELECT * FROM trip WHERE strftime('%s', " +
-                COLUMN_TRIP_TIME + ") > strftime('%s', 'now') AND " +
-                "date(" + COLUMN_TRIP_TIME + ") = date('now') " +
-                " ORDER BY " + COLUMN_TRIP_TIME + " LIMIT 1;" ;
+        String queryStr = "SELECT " + TABLE_TRIP + "." +
+                COLUMN_TRIP_ID + ", " + COLUMN_TRIP_TIME + ", " +
+                COLUMN_LOC_NAME + ", "+ COLUMN_LOC_ADDRESS + " FROM " +
+                TABLE_TRIP + ", " + TABLE_LOCATION + " WHERE " +
+                COLUMN_TRIP_ACTIVE + " = 1 AND " +
+                COLUMN_TRIP_FINISHED + " = 0 AND " +
+                COLUMN_TRIP_LOCATION_ID + " = " + TABLE_LOCATION + "." +
+                COLUMN_LOC_ID +";";
+
         Cursor cursor = db.rawQuery(queryStr, null);
 
         return cursor;

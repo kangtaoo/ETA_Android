@@ -1,7 +1,6 @@
 package com.nyu.cs9033.eta.controllers;
 
 import com.nyu.cs9033.eta.dbHelpers.TripDatabaseHelper;
-import com.nyu.cs9033.eta.models.Trip;
 import com.nyu.cs9033.eta.R;
 
 import android.app.Activity;
@@ -84,8 +83,8 @@ public class ViewTripActivity extends Activity {
 		
 		// TODO - fill in here
 
-		TextView time = (TextView)findViewById(R.id.textView_view_trip_time_value);
-		TextView tripLocation = (TextView)findViewById(R.id.textView_view_trip_location_value);
+		TextView time = (TextView)findViewById(R.id.textView_cur_trip_time_value);
+		TextView tripLocation = (TextView)findViewById(R.id.textView_cur_trip_location_value);
 		TextView friends = (TextView)findViewById(R.id.textView_view_trip_friendName_value);
 
 		time.setText(this.time);
