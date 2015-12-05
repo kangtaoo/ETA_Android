@@ -392,6 +392,11 @@ public class CreateTripActivity extends Activity {
 	 * */
 	private int savePerson(TripDatabaseHelper db, Person person){
 		// first, search for existing person
+		Cursor cursor = db.getPerson(person);
+		if(cursor.getCount() > 0){
+			cursor.moveToFirst();
+			return cursor.getInt(0);
+		}
 		// If no existing record, create new person
 		return (int)db.insertPerson(person);
 	}
@@ -412,6 +417,12 @@ public class CreateTripActivity extends Activity {
 	 */
 	private int saveLocation(TripDatabaseHelper db, Location location){
 		// first, search for existing location
+		Cursor cursor = db.getLocation(location);
+		if(cursor.getCount() > 0){
+			cursor.moveToFirst();
+			return cursor.getInt(0);
+		}
+
 		// if no existing record, create new record
 		return (int)db.insertLocation(location);
 	}

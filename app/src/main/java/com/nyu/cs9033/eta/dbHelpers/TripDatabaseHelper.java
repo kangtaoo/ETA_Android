@@ -109,9 +109,9 @@ public class TripDatabaseHelper extends SQLiteOpenHelper {
         // Add location id into current trip
         cv.put(COLUMN_TRIP_LOCATION_ID, locId);
         // Needs to get trip destination
-        cv.put(COLUMN_TRIP_ACTIVE, trip.isActive()?1:0);
+        cv.put(COLUMN_TRIP_ACTIVE, trip.isActive() ? 1 : 0);
         // Add friend lists for current trip
-        cv.put(COLUMN_TRIP_ARRIVED, trip.isArrived()?1:0);
+        cv.put(COLUMN_TRIP_ARRIVED, trip.isArrived() ? 1 : 0);
 
         // return id of new trip
         return getWritableDatabase().insert(TABLE_TRIP, null, cv);
@@ -201,8 +201,16 @@ public class TripDatabaseHelper extends SQLiteOpenHelper {
     /**
      * Search person from database via name and number
      * */
-    public Cursor getPerson(String name, String number){
-        return null;
+    public Cursor getPerson(Person person){
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        String queryStr = "SELECT * FROM person where "
+                + COLUMN_PERSON_NAME + " = \"" + person.getName() + "\" AND "
+                + COLUMN_PERSON_PHONENUM + " = \"" + person.getNumber() + "\";";
+
+        Cursor result = db.rawQuery(queryStr, null);
+
+        return result;
     }
 
     public long insertPerson(Person person){
@@ -221,6 +229,18 @@ public class TripDatabaseHelper extends SQLiteOpenHelper {
         cv.put(COLUMN_TPM_PERSONID, personID);
 
         return getWritableDatabase().insert(TABLE_TRIP_PERSON_MAP, null, cv);
+    }
+
+    public Cursor getLocation(Location location){
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        String queryStr = "SELECT * FROM location where "
+                + COLUMN_LOC_LAT + " = " + location.getLatitude() + " AND "
+                + COLUMN_LOC_LONG + " = " + location.getLongitude() + ";";
+
+        Cursor result = db.rawQuery(queryStr, null);
+
+        return result;
     }
 }
 
