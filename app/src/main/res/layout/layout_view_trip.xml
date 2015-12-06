@@ -27,7 +27,7 @@
         android:textAppearance="?android:attr/textAppearanceMedium"
 
         android:id="@+id/textView_view_trip_friendName"
-        android:layout_below="@+id/textView_view_trip_time_value"
+        android:layout_below="@+id/textView_cur_trip_time_value"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
 
@@ -47,14 +47,13 @@
         android:id="@+id/button_view_trip_ok"
         android:onClick="onClickOK"
         android:layout_centerVertical="true"
-        android:layout_alignRight="@+id/textView_view_trip_detail"
-        android:layout_alignEnd="@+id/textView_view_trip_detail" />
+        android:layout_centerHorizontal="true" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Location"
-        android:id="@+id/textView_view_trip_location"
+        android:id="@+id/textView_cur_trip_location"
         android:textAppearance="?android:attr/textAppearanceMedium"
 
         android:layout_below="@+id/textView_view_trip_detail"
@@ -65,8 +64,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Location value"
-        android:id="@+id/textView_view_trip_location_value"
-        android:layout_below="@+id/textView_view_trip_location"
+        android:id="@+id/textView_cur_trip_location_value"
+        android:layout_below="@+id/textView_cur_trip_location"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
 
@@ -75,19 +74,27 @@
         android:layout_height="wrap_content"
         android:text="Time"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:id="@+id/textView_view_trip_time"
+        android:id="@+id/textView_cur_trip_time"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_below="@+id/textView_view_trip_location_value" />
+        android:layout_below="@+id/textView_cur_trip_location_value" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="time value"
-        android:id="@+id/textView_view_trip_time_value"
-        android:layout_below="@+id/textView_view_trip_time"
+        android:id="@+id/textView_cur_trip_time_value"
+        android:layout_below="@+id/textView_cur_trip_time"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Active"
+        android:id="@+id/button_view_trip_active"
+        android:layout_below="@+id/button_view_trip_ok"
+        android:layout_centerHorizontal="true" />
 
 
 </RelativeLayout>

@@ -52,7 +52,7 @@ public class ViewTripActivity extends Activity {
 
 	private void initFields(Intent i){
 		tripId = i.getExtras().getLong("tripId");
-		Log.e(TAG, "=======initFields::trip id is: " + tripId + "==========");
+		Log.i(TAG, "=======initFields::trip id is: " + tripId + "==========");
 		address = i.getExtras().getString("address");
 
 		friends = buildFriendList(tripId);
@@ -97,6 +97,13 @@ public class ViewTripActivity extends Activity {
 	 * */
 	public void onClickOK(View view){
 		setResult(RESULT_CANCELED);
+		finish();
+	}
+
+	/**
+	 * Callback function for Active button on view trip view
+	 * */
+	public void onClickActive(View view){
 		finish();
 	}
 }
